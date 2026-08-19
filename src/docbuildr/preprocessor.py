@@ -33,7 +33,13 @@ class MarkdownPreprocessor:
                 doc,
             )
 
-            text = self.fix_internal_links(text)
+            text = self.fix_internal_links(
+                text,
+            )
+
+            text = self.fix_mermaid_blocks(
+                text,
+            )
 
             output.append(
                 MarkdownPage(
@@ -59,7 +65,6 @@ class MarkdownPreprocessor:
 
             src = match.group(2).strip()
 
-            # Docsify syntax
             if " '" in src:
                 src = src.split(" '", 1)[0]
 
@@ -126,5 +131,33 @@ class MarkdownPreprocessor:
         return re.sub(
             r'\]\((/[^)]*?\.md)\)',
             ')',
+            text,
+        )
+
+    def fix_mermaid_blocks(
+        self,
+        text: str,
+    ) -> str:
+        """
+        Convert fenced Mermaid blocks into HTML containers.
+        """
+
+        pattern = re.compile(
+            r"```mermaid\s*\n(.*?)```",
+            flags=re.DOTALL,
+        )
+
+        def repl(match):
+
+            diagram = match.group(1).strip()
+
+            return (
+                '<div class="mermaid">\n'
+                f'{diagram}\n'
+                '</div>'
+            )
+
+        return pattern.sub(
+            repl,
             text,
         )
