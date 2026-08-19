@@ -42,8 +42,14 @@ dependencies = [
     "beautifulsoup4>=4.15",
     "jinja2>=3.1",
     "lxml>=6.1",
+    "markdown>=3.8",
     "markdownify>=1.2",
     "requests>=2.32",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4",
 ]
 
 [project.scripts]
@@ -51,3 +57,15 @@ docbuildr = "docbuildr.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = [
+    "tests",
+]
+pythonpath = [
+    "src",
+]
+addopts = [
+    "-ra",
+]
