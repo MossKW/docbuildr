@@ -9,10 +9,16 @@ from docs2pdf.pdf import PDFExporter
 from docs2pdf.viewer import DocsifyViewer
 
 
-def main():
+def main() -> None:
 
     parser = argparse.ArgumentParser(
-        description="Download Docsify documentation"
+        prog="docbuildr",
+        description="Build beautiful books from documentation.",
+        epilog=(
+            "Example:\n"
+            "  docbuildr https://gthlab.au/panaroo"
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
     parser.add_argument(
@@ -55,7 +61,6 @@ def main():
     print(f"\n✅ Saved: {output}")
     print(f"✅ Saved: {output.with_suffix('.html')}")
 
-    # Create Docsify viewer
     viewer = DocsifyViewer()
 
     viewer.create(
