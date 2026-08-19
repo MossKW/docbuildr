@@ -1,0 +1,51 @@
+/* Code blocks */
+
+pre {
+    margin: 1.5rem 0;
+
+    padding: 1rem;
+
+    border-radius: 8px;
+
+    background: #111827;
+    color: #f9fafb;
+
+    font-size: .90rem;
+    line-height: 1.55;
+
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+
+    page-break-inside: avoid;
+}
+
+pre code {
+    display: block;
+
+    white-space: inherit;
+
+    background: transparent;
+    color: inherit;
+}
+
+code {
+    font-family:
+        "JetBrains Mono",
+        "SFMono-Regular",
+        Consolas,
+        Menlo,
+        monospace;
+}
+
+p code,
+li code,
+td code,
+th code {
+    background: #f3f4f6;
+    color: #c7254e;
+
+    padding: .1rem .3rem;
+
+    border-radius: 4px;
+}

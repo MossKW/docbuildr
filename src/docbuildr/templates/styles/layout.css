@@ -1,0 +1,32 @@
+/* Main document layout */
+
+.book {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+
+.book-header,
+.book-footer {
+    display: none;
+}
+
+.book-content {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Images */
+
+img {
+    display: block;
+
+    max-width: 100%;
+    height: auto;
+
+    margin: 1.5rem auto;
+
+    page-break-inside: avoid;
+}

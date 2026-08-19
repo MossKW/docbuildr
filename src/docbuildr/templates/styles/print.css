@@ -1,0 +1,38 @@
+@page {
+    size: A4;
+    margin: 15mm;
+}
+
+/* Explicit pagination */
+
+.page-break {
+    page-break-after: always;
+}
+
+/* Semantic print layout */
+
+.chapter-title {
+    page-break-before: always;
+    break-before: page;
+}
+
+.chapter-title:first-of-type {
+    page-break-before: auto;
+    break-before: auto;
+}
+
+.doc-table,
+.doc-image,
+.code-block,
+.doc-blockquote {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.doc-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+
+    margin: 1.5rem auto;
+}

@@ -1,0 +1,55 @@
+/* Tables */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+
+    table-layout: auto;
+
+    font-size: 0.88rem;
+
+    page-break-inside: avoid;
+}
+
+thead {
+    background: #f3f4f6;
+}
+
+th,
+td {
+    border: 1px solid #d1d5db;
+
+    padding: .55rem;
+
+    text-align: left;
+    vertical-align: top;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+th {
+    font-weight: 700;
+}
+
+/* Smart table widths */
+
+.doc-table.cols-5 th:nth-child(1),
+.doc-table.cols-5 td:nth-child(1) {
+    width: 20%;
+}
+
+.doc-table.cols-5 th:nth-child(2),
+.doc-table.cols-5 td:nth-child(2) {
+    width: 44%;
+}
+
+.doc-table.cols-5 th:nth-child(3),
+.doc-table.cols-5 td:nth-child(3),
+.doc-table.cols-5 th:nth-child(4),
+.doc-table.cols-5 td:nth-child(4),
+.doc-table.cols-5 th:nth-child(5),
+.doc-table.cols-5 td:nth-child(5) {
+    width: 12%;
+}
