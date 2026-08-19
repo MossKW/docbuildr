@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import re
+
 from docbuildr.crawler import MarkdownPage
 from docbuildr.metadata import BookMetadata
 from docbuildr.models import Chapter
@@ -24,6 +26,21 @@ class BookBuilder:
                 self.render_chapters(chapters),
             ]
         )
+
+    def slugify(
+        self,
+        text: str,
+    ) -> str:
+
+        text = text.lower()
+
+        text = re.sub(
+            r"[^a-z0-9]+",
+            "-",
+            text,
+        )
+
+        return text.strip("-")
 
     def build_cover(
         self,
@@ -95,7 +112,7 @@ This PDF is intended for offline reading only.
             start=1,
         ):
             lines.append(
-                f"{i}. {chapter.title}"
+                f'{i}. [{chapter.title}](#{self.slugify(chapter.title)})'
             )
 
         lines.append("")
@@ -121,7 +138,20 @@ This PDF is intended for offline reading only.
         chapters: list[Chapter],
     ) -> str:
 
-        return "\n\n".join(
-            chapter.markdown
-            for chapter in chapters
-        )
+        parts = []
+
+        for chapter in chapters:
+
+            anchor = self.slugify(
+                chapter.title
+            )
+
+            parts.append(
+                f"""
+<a id="{anchor}"></a>
+
+{chapter.markdown}
+"""
+            )
+
+        return "\n\n".join(parts)
