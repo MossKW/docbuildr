@@ -54,6 +54,16 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+<script type="module">
+import mermaid from "./vendor/mermaid/mermaid.min.js";
+
+mermaid.initialize({
+    startOnLoad: true,
+    theme: "default",
+    securityLevel: "loose",
+});
+</script>
+
 </body>
 
 </html>
