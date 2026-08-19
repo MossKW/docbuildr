@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# Generated output
+output/
+
+# macOS
+.DS_Store
+
+# Virtual environments
+.venv/
+venv/
+docs2pdf-env/
+
+# IDE
+.vscode/
+.idea/
+
+# Tests
+.pytest_cache/
+.coverage
+htmlcov/

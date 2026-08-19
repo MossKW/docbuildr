@@ -1,2 +1,0 @@
-[console_scripts]
-docs2pdf = docs2pdf.cli:main
