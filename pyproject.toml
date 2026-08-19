@@ -50,6 +50,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest>=8.4",
+    "pytest-cov>=6.0",
 ]
 
 [project.scripts]
