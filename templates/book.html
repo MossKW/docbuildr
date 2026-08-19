@@ -54,13 +54,24 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-<script type="module">
-import mermaid from "./vendor/mermaid/mermaid.min.js";
+<script src="vendor/mermaid/mermaid.min.js"></script>
 
-mermaid.initialize({
-    startOnLoad: true,
-    theme: "default",
-    securityLevel: "loose",
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+
+    if (window.mermaid) {
+
+        await mermaid.initialize({
+            startOnLoad: false,
+            theme: "default",
+            securityLevel: "loose",
+        });
+
+        await mermaid.run({
+            querySelector: ".mermaid",
+        });
+    }
+
 });
 </script>
 
