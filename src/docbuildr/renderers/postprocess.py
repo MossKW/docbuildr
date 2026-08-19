@@ -17,6 +17,10 @@ class HTMLPostProcessor:
         )
 
         self._process_tables(soup)
+        self._process_images(soup)
+        self._process_code_blocks(soup)
+        self._process_headings(soup)
+        self._process_blockquotes(soup)
 
         return str(soup)
 
@@ -34,9 +38,61 @@ class HTMLPostProcessor:
 
             cols = len(headers.find_all("th"))
 
-            classes = list(table.get("class", []))
+            classes = set(table.get("class", []))
 
-            classes.append("doc-table")
-            classes.append(f"cols-{cols}")
+            classes.add("doc-table")
+            classes.add(f"cols-{cols}")
 
-            table["class"] = sorted(set(classes))
+            table["class"] = sorted(classes)
+
+    def _process_images(
+        self,
+        soup: BeautifulSoup,
+    ) -> None:
+
+        for image in soup.find_all("img"):
+
+            classes = set(image.get("class", []))
+
+            classes.add("doc-image")
+
+            image["class"] = sorted(classes)
+
+    def _process_code_blocks(
+        self,
+        soup: BeautifulSoup,
+    ) -> None:
+
+        for pre in soup.find_all("pre"):
+
+            classes = set(pre.get("class", []))
+
+            classes.add("code-block")
+
+            pre["class"] = sorted(classes)
+
+    def _process_headings(
+        self,
+        soup: BeautifulSoup,
+    ) -> None:
+
+        for heading in soup.find_all("h1"):
+
+            classes = set(heading.get("class", []))
+
+            classes.add("chapter-title")
+
+            heading["class"] = sorted(classes)
+
+    def _process_blockquotes(
+        self,
+        soup: BeautifulSoup,
+    ) -> None:
+
+        for quote in soup.find_all("blockquote"):
+
+            classes = set(quote.get("class", []))
+
+            classes.add("doc-blockquote")
+
+            quote["class"] = sorted(classes)

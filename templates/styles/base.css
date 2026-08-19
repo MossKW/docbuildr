@@ -249,3 +249,48 @@ a:hover {
 .page-break {
     page-break-after: always;
 }
+
+/* --------------------------------------------------
+   Semantic Print Layout
+-------------------------------------------------- */
+
+/* Every chapter starts on a new page (except the first) */
+.chapter-title {
+    page-break-before: always;
+    break-before: page;
+}
+
+.chapter-title:first-of-type {
+    page-break-before: auto;
+    break-before: auto;
+}
+
+/* Tables */
+.doc-table {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+/* Images */
+.doc-image {
+    page-break-inside: avoid;
+    break-inside: avoid;
+
+    display: block;
+    max-width: 100%;
+    height: auto;
+
+    margin: 1.5rem auto;
+}
+
+/* Code blocks */
+.code-block {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+/* Quotes */
+.doc-blockquote {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
