@@ -4,7 +4,7 @@
 
 DocBuildr is a command-line tool that crawls documentation websites, merges pages into a single book, and generates professional-quality Markdown, HTML, and PDF outputs.
 
-Designed for developers, researchers, and engineers who want offline documentation with clean typography and print-friendly layouts.
+Designed for developers, researchers, engineers, and scientists who want offline documentation with clean typography, mathematical rendering, and print-friendly layouts.
 
 ---
 
@@ -20,6 +20,9 @@ Designed for developers, researchers, and engineers who want offline documentati
 - 📊 Smart table formatting
 - 💻 Optimized code blocks
 - 📑 Automatic table of contents
+- ➗ Offline KaTeX math rendering
+- ✅ Unit-tested core components
+- 🔄 GitHub Actions continuous integration
 - ⚡ Simple command-line interface
 
 ---
@@ -45,10 +48,18 @@ source .venv/bin/activate
 Install
 
 ```bash
-pip install -e .
+pip install -e ".[dev]"
 ```
 
-Install Playwright browser
+---
+
+## Requirements
+
+- Python 3.11+
+- Playwright
+- Chromium browser
+
+Install Chromium
 
 ```bash
 playwright install chromium
@@ -63,6 +74,18 @@ Generate a book
 ```bash
 docbuildr https://gthlab.au/panaroo
 ```
+
+---
+
+## Examples
+
+Run the bundled KaTeX demo
+
+```bash
+python examples/math_demo.py
+```
+
+The example generates a standalone HTML document demonstrating inline and display mathematics rendered entirely offline.
 
 ---
 
@@ -107,7 +130,7 @@ docbuildr URL \
 
 ## Output
 
-```
+```text
 output/
 
 ├── book.md
@@ -120,25 +143,32 @@ output/
 
 ## Project Structure
 
-```
+```text
 docbuildr/
 
-├── crawler.py
-├── preprocessor.py
-├── book.py
-├── renderer.py
-├── pdf.py
-├── viewer.py
-├── cli.py
-└── renderers/
+├── src/
+├── templates/
+├── tests/
+├── examples/
+├── .github/
+├── LICENSE
+├── README.md
+├── RELEASE.md
+└── pyproject.toml
 ```
 
 ---
 
 ## Build Pipeline
 
-```
+```text
 Documentation Website
+
+        │
+
+        ▼
+
+Site Adapter
 
         │
 
@@ -165,12 +195,9 @@ BookBuilder
 MarkdownRenderer
 
         │
-
-        ▼
-
-HTMLPostProcessor
-
-        │
+        ├── HTML
+        ├── Viewer
+        └── Vendor Assets
 
         ▼
 
@@ -193,8 +220,10 @@ PDFExporter
 | Print layout | ✅ |
 | Viewer | ✅ |
 | Professional CLI | ✅ |
+| Offline KaTeX rendering | ✅ |
+| Unit tests | ✅ |
+| GitHub Actions CI | ✅ |
 | Syntax highlighting | 🚧 |
-| KaTeX | 🚧 |
 | Theme engine | 🚧 |
 | EPUB export | 🚧 |
 
@@ -206,8 +235,9 @@ PDFExporter
 
 - Professional CLI
 - Professional print layout
+- Offline KaTeX
+- Mermaid diagrams
 - Syntax highlighting
-- KaTeX support
 
 ### Beta
 
@@ -226,19 +256,31 @@ PDFExporter
 
 ## Development
 
-Run in editable mode
+Install development dependencies
 
 ```bash
-pip install -e .
+pip install -e ".[dev]"
 ```
 
-Compile
+Compile source
 
 ```bash
 python -m compileall src
 ```
 
-Run
+Run tests
+
+```bash
+python -m pytest
+```
+
+Run coverage
+
+```bash
+python -m pytest --cov=docbuildr
+```
+
+Run DocBuildr
 
 ```bash
 docbuildr https://gthlab.au/panaroo
@@ -250,11 +292,7 @@ docbuildr https://gthlab.au/panaroo
 
 Contributions are welcome.
 
-Please read
-
-- CONTRIBUTING.md
-
-before submitting a pull request.
+Please read **CONTRIBUTING.md** before submitting a pull request.
 
 ---
 
@@ -266,4 +304,6 @@ MIT License
 
 ## Author
 
-Developed with ❤️ using Python and Playwright.
+Developed by **Moss.kw**
+
+Built with Python, Playwright, and modern web technologies.
