@@ -19,7 +19,7 @@ dependencies = [
 ]
 
 [project.scripts]
-docbuildr = "docs2pdf.cli:main"
+docbuildr = "docbuildr.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

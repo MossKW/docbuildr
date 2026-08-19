@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import re
 
-from docs2pdf.crawler import MarkdownPage
-from docs2pdf.resolver import AssetResolver
+from docbuildr.crawler import MarkdownPage
+from docbuildr.resolver import AssetResolver
 
 
 class MarkdownPreprocessor:

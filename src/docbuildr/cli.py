@@ -1,12 +1,12 @@
 from pathlib import Path
 import argparse
 
-from docs2pdf.crawler import MarkdownCrawler
-from docs2pdf.renderer import MarkdownRenderer
-from docs2pdf.site import detect_site
-from docs2pdf.preprocessor import MarkdownPreprocessor
-from docs2pdf.pdf import PDFExporter
-from docs2pdf.viewer import DocsifyViewer
+from docbuildr.crawler import MarkdownCrawler
+from docbuildr.renderer import MarkdownRenderer
+from docbuildr.site import detect_site
+from docbuildr.preprocessor import MarkdownPreprocessor
+from docbuildr.pdf import PDFExporter
+from docbuildr.viewer import DocsifyViewer
 
 
 def main() -> None:

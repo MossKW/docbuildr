@@ -5,9 +5,9 @@ import shutil
 import markdown
 from jinja2 import Environment, FileSystemLoader
 
-from docs2pdf.book import BookBuilder
-from docs2pdf.crawler import MarkdownPage
-from docs2pdf.metadata import BookMetadata
+from docbuildr.book import BookBuilder
+from docbuildr.crawler import MarkdownPage
+from docbuildr.metadata import BookMetadata
 
 
 class MarkdownRenderer:

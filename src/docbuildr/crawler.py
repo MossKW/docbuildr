@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import requests
 
-from docs2pdf.site import Page
+from docbuildr.site import Page
 
 
 @dataclass(slots=True)

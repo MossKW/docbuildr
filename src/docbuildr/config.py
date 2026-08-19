@@ -4,8 +4,8 @@ from dataclasses import dataclass
 
 
 @dataclass(slots=True)
-class Docs2PDFConfig:
-    """Global configuration for docs2pdf."""
+class DocBuildrConfig:
+    """Global configuration for DocBuildr."""
 
     title: str = "Documentation"
 
