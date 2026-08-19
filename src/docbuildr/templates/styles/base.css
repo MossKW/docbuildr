@@ -294,3 +294,88 @@ a:hover {
     page-break-inside: avoid;
     break-inside: avoid;
 }
+
+/* ==================================================
+   Table of Contents
+================================================== */
+
+.toc {
+    margin-top: 0;
+}
+
+.toc h1 {
+    margin: 0 0 2rem 0;
+
+    font-size: 2.3rem;
+    font-weight: 700;
+
+    color: #111827;
+
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: .75rem;
+}
+
+.toc-list {
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+}
+
+.toc-item {
+    display: flex;
+    align-items: center;
+
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.toc-number {
+    width: 2.5rem;
+
+    flex-shrink: 0;
+
+    font-weight: 700;
+
+    color: #374151;
+}
+
+.toc-link {
+    display: flex;
+    align-items: center;
+
+    flex: 1;
+
+    color: #111827;
+
+    text-decoration: none;
+}
+
+.toc-link:hover {
+    color: #2563eb;
+}
+
+/* Dot leader */
+
+.toc-link::after {
+
+    content: "";
+
+    flex: 1;
+
+    margin: 0 .75rem;
+
+    border-bottom: 1px dotted #9ca3af;
+}
+
+/* Reserved for page numbers (future) */
+
+.toc-page {
+
+    min-width: 2rem;
+
+    text-align: right;
+
+    color: #6b7280;
+
+    font-size: .95rem;
+}

@@ -4,14 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "docbuildr"
-version = "0.3.0a4"
+version = "0.3.0a7"
+
 description = "Generate Markdown, HTML, and PDF books from online documentation."
 readme = "README.md"
 requires-python = ">=3.11"
+
 license = { text = "MIT" }
 
 authors = [
-    { name = "Moss.kw" }
+    { name = "Moss.kw", email = "k.pollapong@gmail.com" }
 ]
 
 keywords = [
@@ -47,6 +49,12 @@ dependencies = [
     "requests>=2.32",
 ]
 
+[project.urls]
+Homepage = "https://github.com/MossKW/docbuildr"
+Repository = "https://github.com/MossKW/docbuildr"
+Issues = "https://github.com/MossKW/docbuildr/issues"
+Documentation = "https://github.com/MossKW/docbuildr"
+
 [project.optional-dependencies]
 dev = [
     "pytest>=8.4",
@@ -58,6 +66,13 @@ docbuildr = "docbuildr.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+docbuildr = [
+    "templates/book.html",
+    "templates/styles/*",
+    "templates/vendor/**/*",
+]
 
 [tool.pytest.ini_options]
 minversion = "8.0"

@@ -1,24 +1,27 @@
 from __future__ import annotations
 
-from pathlib import Path
 import shutil
+from pathlib import Path
+from importlib.resources import files
 
 
 class AssetManager:
-    """Copy static assets into the output directory."""
+    """Copy bundled static assets into the output directory."""
 
     def copy_assets(
         self,
         output_dir: Path,
     ) -> None:
 
+        template_root = files("docbuildr").joinpath("templates")
+
         self._copy_directory(
-            Path("templates/styles"),
+            Path(str(template_root.joinpath("styles"))),
             output_dir / "styles",
         )
 
         self._copy_directory(
-            Path("templates/vendor"),
+            Path(str(template_root.joinpath("vendor"))),
             output_dir / "vendor",
         )
 
@@ -27,9 +30,6 @@ class AssetManager:
         source: Path,
         destination: Path,
     ) -> None:
-
-        if not source.exists():
-            return
 
         if destination.exists():
             shutil.rmtree(destination)

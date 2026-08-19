@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from datetime import date
 from pathlib import Path
+from importlib.resources import files
 
 import markdown
 from jinja2 import Environment, FileSystemLoader
@@ -35,9 +36,7 @@ class MarkdownRenderer:
             generated=date.today().strftime("%d %B %Y"),
         )
 
-        builder = BookBuilder()
-
-        markdown_text = builder.build(
+        markdown_text = BookBuilder().build(
             docs=docs,
             metadata=metadata,
         )
@@ -56,12 +55,16 @@ class MarkdownRenderer:
             ],
         )
 
-        processor = HTMLPostProcessor()
+        html = HTMLPostProcessor().process(html)
 
-        html = processor.process(html)
+        template_root = Path(
+            str(
+                files("docbuildr").joinpath("templates")
+            )
+        )
 
         env = Environment(
-            loader=FileSystemLoader("templates"),
+            loader=FileSystemLoader(template_root),
         )
 
         template = env.get_template(
@@ -70,7 +73,8 @@ class MarkdownRenderer:
 
         final_html = template.render(
             title=metadata.title,
-            content=html,
+            body=html,
+            katex=True,
         )
 
         html_file = output.with_suffix(".html")
