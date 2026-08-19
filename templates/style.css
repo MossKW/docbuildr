@@ -1,0 +1,206 @@
+/* --------------------------------------------------
+   docs2pdf Book Theme
+-------------------------------------------------- */
+
+@page {
+    size: A4;
+    margin: 18mm;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont,
+                 "Segoe UI", Arial, sans-serif;
+
+    color: #222;
+    line-height: 1.75;
+
+    max-width: 900px;
+    margin: auto;
+
+    padding: 30px;
+}
+
+/* ---------------- Headings ---------------- */
+
+h1 {
+    page-break-before: always;
+    page-break-after: avoid;
+
+    border-bottom: 3px solid #2b7cff;
+
+    padding-bottom: .3em;
+
+    margin-top: 0;
+}
+
+h1:first-of-type {
+    page-break-before: auto;
+}
+
+h2,
+h3,
+h4 {
+    page-break-after: avoid;
+}
+
+/* ---------------- Paragraph ---------------- */
+
+p {
+    margin: .8em 0;
+}
+
+/* ---------------- Lists ---------------- */
+
+ul,
+ol {
+    margin-left: 1.5em;
+}
+
+/* ---------------- Code ---------------- */
+
+pre {
+
+    background: #f6f8fa;
+
+    border-radius: 6px;
+
+    padding: 14px;
+
+    overflow-x: auto;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+
+    page-break-inside: avoid;
+}
+
+code {
+
+    font-family:
+        Menlo,
+        Consolas,
+        monospace;
+}
+
+/* ---------------- Tables ---------------- */
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin: 1.5em 0;
+
+    page-break-inside: avoid;
+}
+
+th {
+
+    background: #f2f2f2;
+}
+
+th,
+td {
+
+    border: 1px solid #ddd;
+
+    padding: 8px;
+}
+
+/* ---------------- Images ---------------- */
+
+img {
+
+    display: block;
+
+    max-width: 85%;
+
+    max-height: 650px;
+
+    width: auto;
+
+    height: auto;
+
+    margin: 1.8em auto;
+
+    page-break-inside: avoid;
+}
+
+/* ---------------- Blockquote ---------------- */
+
+blockquote {
+
+    border-left: 4px solid #ddd;
+
+    margin-left: 0;
+
+    padding-left: 1em;
+
+    color: #666;
+}
+
+/* ---------------- Links ---------------- */
+
+a {
+
+    color: #1565c0;
+
+    text-decoration: none;
+}
+
+a:hover {
+
+    text-decoration: underline;
+}
+
+/* =========================================
+   Cover Page
+========================================= */
+
+.cover{
+
+    height:90vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+}
+
+.cover h1{
+
+    border:none;
+
+    font-size:3em;
+
+    margin-bottom:.4em;
+
+    page-break-before:auto;
+
+}
+
+.cover .subtitle{
+
+    font-size:1.2em;
+
+    color:#666;
+
+}
+
+.page-break{
+
+    page-break-after:always;
+
+}

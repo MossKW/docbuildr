@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: docs2pdf
+Version: 0.1.0
+Summary: Convert documentation websites into a PDF book
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: playwright>=1.62
+Requires-Dist: beautifulsoup4>=4.15
+Requires-Dist: jinja2>=3.1
+Requires-Dist: lxml>=6.1
+Requires-Dist: markdownify>=1.2
+Requires-Dist: requests>=2.32
