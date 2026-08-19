@@ -1,22 +1,28 @@
-from pathlib import Path
+from __future__ import annotations
+
 import argparse
 
+from docbuildr.config import DocBuildrConfig
 from docbuildr.crawler import MarkdownCrawler
+from docbuildr.pdf import PDFExporter
+from docbuildr.preprocessor import MarkdownPreprocessor
 from docbuildr.renderer import MarkdownRenderer
 from docbuildr.site import detect_site
-from docbuildr.preprocessor import MarkdownPreprocessor
-from docbuildr.pdf import PDFExporter
 from docbuildr.viewer import DocsifyViewer
 
 
-def main() -> None:
+def build_parser() -> argparse.ArgumentParser:
 
     parser = argparse.ArgumentParser(
         prog="docbuildr",
         description="Build beautiful books from documentation.",
         epilog=(
             "Example:\n"
-            "  docbuildr https://gthlab.au/panaroo"
+            "  docbuildr https://gthlab.au/panaroo\n\n"
+            "Examples:\n"
+            "  docbuildr URL --title \"Panaroo Guide\"\n"
+            "  docbuildr URL --html-only\n"
+            "  docbuildr URL --verbose"
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -26,60 +32,108 @@ def main() -> None:
         help="Documentation URL",
     )
 
+    parser.add_argument(
+        "--title",
+        default="Documentation",
+        help="Book title",
+    )
+
+    parser.add_argument(
+        "--output-dir",
+        default="output",
+        help="Output directory (default: output)",
+    )
+
+    parser.add_argument(
+        "--output-name",
+        default="book",
+        help="Output filename without extension",
+    )
+
+    parser.add_argument(
+        "--html-only",
+        action="store_true",
+        help="Generate Markdown and HTML only",
+    )
+
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Show progress messages",
+    )
+
+    return parser
+
+
+def main() -> None:
+
+    parser = build_parser()
     args = parser.parse_args()
 
-    site = detect_site(args.url)
+    config = DocBuildrConfig(
+        url=args.url,
+        title=args.title,
+        output_dir=args.output_dir,
+        output_name=args.output_name,
+        pdf=not args.html_only,
+        verbose=args.verbose,
+    )
 
+    if config.verbose:
+        print("Detecting documentation site...")
+
+    site = detect_site(config.url)
     pages = site.pages()
 
-    print(f"Found {len(pages)} pages")
+    if config.verbose:
+        print(f"Found {len(pages)} pages")
 
     crawler = MarkdownCrawler()
-
     docs = crawler.fetch(pages)
 
     processor = MarkdownPreprocessor()
-
     docs = processor.process(docs)
-
-    print()
-    print("=" * 60)
-    print(f"Downloaded {len(docs)} markdown pages")
-    print("=" * 60)
 
     renderer = MarkdownRenderer()
 
-    output = Path("output/book.md")
-
     renderer.render(
         docs=docs,
-        output=output,
-        title="Documentation",
-        source=args.url,
+        output=config.markdown_file,
+        title=config.title,
+        source=config.url,
     )
 
-    print(f"\n✅ Saved: {output}")
-    print(f"✅ Saved: {output.with_suffix('.html')}")
+    if config.viewer:
 
-    viewer = DocsifyViewer()
+        viewer = DocsifyViewer()
 
-    viewer.create(
-        output,
-        output.with_name("viewer.html"),
-    )
+        viewer.create(
+            config.markdown_file,
+            config.viewer_file,
+        )
 
-    print(f"✅ Saved: {output.with_name('viewer.html')}")
+    if config.pdf:
 
-    exporter = PDFExporter()
+        exporter = PDFExporter()
 
-    pdf_file = output.with_suffix(".pdf")
+        exporter.export(
+            config.html_file,
+            config.pdf_file,
+        )
 
-    exporter.export(
-        output.with_suffix(".html"),
-        pdf_file,
-    )
+    print()
+    print("=" * 60)
+    print("Build completed successfully.")
+    print("=" * 60)
 
-    print(f"✅ Saved: {pdf_file}")
+    print(f"Markdown : {config.markdown_file}")
+    print(f"HTML     : {config.html_file}")
+
+    if config.viewer:
+        print(f"Viewer   : {config.viewer_file}")
+
+    if config.pdf:
+        print(f"PDF      : {config.pdf_file}")
 
 
 if __name__ == "__main__":
