@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 
+from docbuildr import __version__
 from docbuildr.config import DocBuildrConfig
 from docbuildr.crawler import MarkdownCrawler
 from docbuildr.pdf import PDFExporter
@@ -15,16 +16,29 @@ def build_parser() -> argparse.ArgumentParser:
 
     parser = argparse.ArgumentParser(
         prog="docbuildr",
-        description="Build beautiful books from documentation.",
+        description=(
+            "Generate Markdown, HTML, and PDF books "
+            "from online documentation."
+        ),
         epilog=(
-            "Example:\n"
-            "  docbuildr https://gthlab.au/panaroo\n\n"
             "Examples:\n"
-            "  docbuildr URL --title \"Panaroo Guide\"\n"
-            "  docbuildr URL --html-only\n"
-            "  docbuildr URL --verbose"
+            "  docbuildr https://gthlab.au/panaroo\n\n"
+            "  docbuildr https://gthlab.au/panaroo "
+            "--title \"Panaroo User Guide\"\n\n"
+            "  docbuildr https://gthlab.au/panaroo "
+            "--output-name panaroo\n\n"
+            "  docbuildr https://gthlab.au/panaroo "
+            "--html-only\n\n"
+            "  docbuildr https://gthlab.au/panaroo "
+            "--verbose"
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {__version__}",
     )
 
     parser.add_argument(
@@ -47,19 +61,19 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--output-name",
         default="book",
-        help="Output filename without extension",
+        help="Base output filename (without extension)",
     )
 
     parser.add_argument(
         "--html-only",
         action="store_true",
-        help="Generate Markdown and HTML only",
+        help="Skip PDF generation",
     )
 
     parser.add_argument(
         "--verbose",
         action="store_true",
-        help="Show progress messages",
+        help="Enable verbose output",
     )
 
     return parser

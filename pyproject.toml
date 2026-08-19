@@ -4,10 +4,38 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "docbuildr"
-version = "0.3.0-alpha2"
-description = "Build beautiful books from documentation"
+version = "0.3.0a4"
+description = "Generate Markdown, HTML, and PDF books from online documentation."
 readme = "README.md"
 requires-python = ">=3.11"
+license = { text = "MIT" }
+
+authors = [
+    { name = "Moss.kw" }
+]
+
+keywords = [
+    "documentation",
+    "markdown",
+    "pdf",
+    "html",
+    "playwright",
+    "static-site",
+    "book",
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Documentation",
+    "Topic :: Software Development :: Documentation",
+]
 
 dependencies = [
     "playwright>=1.62",
