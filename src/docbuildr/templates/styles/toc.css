@@ -1,50 +1,82 @@
 .toc {
-    page-break-after: always;
+    margin: 0;
+    color: #111827;
 }
 
 .toc h1 {
-    margin-bottom: 2rem;
+    margin: 0 0 1.75rem;
+    padding-bottom: .75rem;
+
+    color: #111827;
+    border-bottom: 2px solid #e5e7eb;
 }
 
 .toc-list {
-    display: flex;
-    flex-direction: column;
-    gap: .55rem;
+    display: grid;
+    gap: .65rem;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
 }
 
 .toc-item {
-    display: flex;
-    align-items: center;
-}
-
-.toc-number {
-    width: 2.5rem;
-    flex-shrink: 0;
-    font-weight: 600;
+    display: block;
+    break-inside: avoid;
+    page-break-inside: avoid;
 }
 
 .toc-link {
-    display: flex;
-    align-items: center;
-    flex: 1;
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, auto) minmax(1rem, 1fr) 2.5rem;
+    column-gap: .6rem;
+    align-items: baseline;
 
-    color: inherit;
+    width: 100%;
+    color: #111827;
     text-decoration: none;
 }
 
 .toc-title {
-    white-space: nowrap;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
 }
 
 .toc-dots {
-    flex: 1;
-    border-bottom: 1px dotted #999;
-    margin: 0 .6rem;
-    transform: translateY(-2px);
+    min-width: 0;
+    border-bottom: 1px dotted #9ca3af;
+    transform: translateY(-.2em);
 }
 
+.toc-number,
 .toc-page {
-    width: 2rem;
     text-align: right;
+    color: #6b7280;
     font-variant-numeric: tabular-nums;
+}
+
+.toc-number {
+    font-weight: 700;
+}
+
+.toc-link:hover,
+.toc-link:focus {
+    color: #2563eb;
+}
+
+.toc-link:hover .toc-dots,
+.toc-link:focus .toc-dots {
+    border-bottom-color: currentcolor;
+}
+
+.toc-link::after {
+    content: none;
+}
+
+@media print {
+    .toc-link {
+        color: #111827;
+    }
 }

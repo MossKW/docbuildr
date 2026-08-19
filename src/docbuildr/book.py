@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from html import escape
 import re
 
 from docbuildr.crawler import MarkdownPage
@@ -102,23 +103,39 @@ This PDF is intended for offline reading only.
         chapters: list[Chapter],
     ) -> str:
 
-        lines = [
-            "# Contents",
-            "",
-        ]
+        items = []
 
-        for i, chapter in enumerate(
+        for number, chapter in enumerate(
             chapters,
             start=1,
         ):
-            lines.append(
-                f'{i}. [{chapter.title}](#{self.slugify(chapter.title)})'
+            anchor = self.slugify(chapter.title)
+            title = escape(chapter.title)
+
+            items.append(
+                f"""
+<li class="toc-item">
+<a class="toc-link" href="#{anchor}">
+<span class="toc-number" aria-hidden="true">{number}</span>
+<span class="toc-title">{title}</span>
+<span class="toc-dots" aria-hidden="true"></span>
+<span class="toc-page"></span>
+</a>
+</li>""".strip()
             )
 
-        lines.append("")
-        lines.append('<div class="page-break"></div>')
+        toc_items = "\n".join(items)
 
-        return "\n".join(lines)
+        return f"""
+<nav class="toc" aria-labelledby="contents-title">
+<h1 id="contents-title">Contents</h1>
+<ol class="toc-list">
+{toc_items}
+</ol>
+</nav>
+
+<div class="page-break"></div>
+""".strip()
 
     def build_chapters(
         self,
