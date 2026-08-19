@@ -1,33 +1,40 @@
 from __future__ import annotations
 
-from pathlib import PurePosixPath
-from urllib.parse import urlparse
+from pathlib import Path
+import shutil
 
 
-class AssetResolver:
-    """Resolve relative asset paths."""
+class AssetManager:
+    """Copy static assets into the output directory."""
 
-    def resolve(
+    def copy_assets(
         self,
-        markdown_url: str,
-        asset: str,
-    ) -> str:
+        output_dir: Path,
+    ) -> None:
 
-        if asset.startswith("http"):
-            return asset
+        self._copy_directory(
+            Path("templates/styles"),
+            output_dir / "styles",
+        )
 
-        asset = asset.strip()
+        self._copy_directory(
+            Path("templates/vendor"),
+            output_dir / "vendor",
+        )
 
-        asset = asset.lstrip("./")
+    def _copy_directory(
+        self,
+        source: Path,
+        destination: Path,
+    ) -> None:
 
-        parsed = urlparse(markdown_url)
+        if not source.exists():
+            return
 
-        path = PurePosixPath(parsed.path)
+        if destination.exists():
+            shutil.rmtree(destination)
 
-        folder = path.parent
-
-        return (
-            f"https://raw.githubusercontent.com/"
-            f"gtonkinhill/panaroo/master/docs/"
-            f"{folder.relative_to('/panaroo')}/{asset}"
+        shutil.copytree(
+            source,
+            destination,
         )

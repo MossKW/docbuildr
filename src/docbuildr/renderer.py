@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from datetime import date
 from pathlib import Path
-import shutil
 
 import markdown
 from jinja2 import Environment, FileSystemLoader
 
+from docbuildr.assets import AssetManager
 from docbuildr.book import BookBuilder
 from docbuildr.crawler import MarkdownPage
 from docbuildr.metadata import BookMetadata
@@ -80,28 +80,6 @@ class MarkdownRenderer:
             encoding="utf-8",
         )
 
-        # Copy styles
-        styles_src = Path("templates/styles")
-        styles_dst = output.parent / "styles"
-
-        if styles_dst.exists():
-            shutil.rmtree(styles_dst)
-
-        shutil.copytree(
-            styles_src,
-            styles_dst,
+        AssetManager().copy_assets(
+            output.parent,
         )
-
-        # Copy vendor assets (KaTeX, Mermaid, etc.)
-        vendor_src = Path("templates/vendor")
-        vendor_dst = output.parent / "vendor"
-
-        if vendor_src.exists():
-
-            if vendor_dst.exists():
-                shutil.rmtree(vendor_dst)
-
-            shutil.copytree(
-                vendor_src,
-                vendor_dst,
-            )
