@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "docs2pdf"
-version = "0.1.0"
-description = "Convert documentation websites into a PDF book"
+name = "docbuildr"
+version = "0.3.0-alpha2"
+description = "Build beautiful books from documentation"
 readme = "README.md"
 requires-python = ">=3.11"
 
@@ -14,12 +14,12 @@ dependencies = [
     "beautifulsoup4>=4.15",
     "jinja2>=3.1",
     "lxml>=6.1",
-    "markdownify>=3.8",
+    "markdownify>=1.2",
     "requests>=2.32",
 ]
 
 [project.scripts]
-docs2pdf = "docs2pdf.cli:main"
+docbuildr = "docs2pdf.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
