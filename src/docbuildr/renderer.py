@@ -80,6 +80,7 @@ class MarkdownRenderer:
             encoding="utf-8",
         )
 
+        # Copy styles
         styles_src = Path("templates/styles")
         styles_dst = output.parent / "styles"
 
@@ -90,3 +91,17 @@ class MarkdownRenderer:
             styles_src,
             styles_dst,
         )
+
+        # Copy vendor assets (KaTeX, Mermaid, etc.)
+        vendor_src = Path("templates/vendor")
+        vendor_dst = output.parent / "vendor"
+
+        if vendor_src.exists():
+
+            if vendor_dst.exists():
+                shutil.rmtree(vendor_dst)
+
+            shutil.copytree(
+                vendor_src,
+                vendor_dst,
+            )
