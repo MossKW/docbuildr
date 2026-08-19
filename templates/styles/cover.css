@@ -1,38 +1,97 @@
 .cover {
+    height: 255mm;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
-
-    min-height: 90vh;
+    align-items: center;
 
     text-align: center;
+
+    page-break-after: always;
 }
 
 .cover h1 {
-    font-size: 34px;
-    border: none;
-    margin-top: 120px;
-    margin-bottom: 48px;
+    margin: 0;
+
+    font-size: 3.3rem;
+    font-weight: 800;
+
+    line-height: 1.15;
+
+    color: #111827;
 }
 
 .cover .subtitle {
-    font-size: 20px;
-    color: #666;
-    margin-bottom: 80px;
+
+    margin-top: 1.5rem;
+
+    font-size: 1.15rem;
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+
+    font-weight: 700;
+
+    color: #2563eb;
 }
 
 .cover .source {
-    font-size: 16px;
-    color: #444;
-    margin-top: 40px;
+
+    margin-top: 4rem;
+
+    width: 75%;
+
+    font-size: .95rem;
+
+    color: #6b7280;
+
+    line-height: 1.7;
+
+    word-break: break-word;
 }
 
 .cover .date {
-    margin-top: 80px;
-    color: #666;
-    font-size: 16px;
+
+    margin-top: .8rem;
+
+    font-size: .9rem;
+
+    color: #9ca3af;
 }
 
-.page-break {
-    page-break-after: always;
+.cover::before {
+
+    content: "";
+
+    width: 72px;
+    height: 4px;
+
+    margin-bottom: 2rem;
+
+    border-radius: 999px;
+
+    background: #2563eb;
+}
+
+.cover::after {
+
+    content: "Generated with DocBuildr";
+
+    margin-top: 5rem;
+
+    padding-top: 1rem;
+
+    border-top: 1px solid #e5e7eb;
+
+    width: 180px;
+
+    font-size: .8rem;
+
+    letter-spacing: .18em;
+
+    text-transform: uppercase;
+
+    color: #2563eb;
 }

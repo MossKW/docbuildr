@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>{{ title }}</title>
 
@@ -14,9 +15,19 @@
 
 <body>
 
-<div class="container">
+<div class="book">
 
+<header class="book-header">
+    <div class="brand">DocBuildr</div>
+</header>
+
+<main class="book-content">
 {{ content | safe }}
+</main>
+
+<footer class="book-footer">
+    Generated with <strong>DocBuildr</strong>
+</footer>
 
 </div>
 

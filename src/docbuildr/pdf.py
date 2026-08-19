@@ -27,22 +27,14 @@ class PDFExporter:
 
             page.goto(
                 html.as_uri(),
-                wait_until="load",
+                wait_until="networkidle",
             )
 
-            # รอ DOM โหลด
-            page.wait_for_load_state("domcontentloaded")
+            page.emulate_media(
+                media="print",
+            )
 
-            # รอ Network โหลด
-            page.wait_for_load_state("networkidle")
-
-            # รอรูป render
-            page.wait_for_timeout(3000)
-
-            # ใช้ CSS สำหรับพิมพ์
-            page.emulate_media(media="print")
-
-            # Debug
+            # Debug HTML ที่ Render แล้ว
             page.screenshot(
                 path="output/debug.png",
                 full_page=True,
@@ -50,15 +42,8 @@ class PDFExporter:
 
             page.pdf(
                 path=str(pdf),
-                format="A4",
                 print_background=True,
                 prefer_css_page_size=True,
-                margin={
-                    "top": "15mm",
-                    "bottom": "15mm",
-                    "left": "15mm",
-                    "right": "15mm",
-                },
             )
 
             browser.close()

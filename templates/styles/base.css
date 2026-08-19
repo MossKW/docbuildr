@@ -1,10 +1,10 @@
-/* --------------------------------------------------
-   docs2pdf Book Theme
--------------------------------------------------- */
-
 @page {
     size: A4;
-    margin: 18mm;
+    margin: 15mm;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 html {
@@ -12,195 +12,240 @@ html {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont,
-                 "Segoe UI", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 
     color: #222;
-    line-height: 1.75;
+    background: #fff;
 
-    max-width: 900px;
-    margin: auto;
+    font-family:
+        "Inter",
+        "Segoe UI",
+        Helvetica,
+        Arial,
+        sans-serif;
 
-    padding: 30px;
+    line-height: 1.7;
 }
 
-/* ---------------- Headings ---------------- */
+/* --------------------------------------------------
+   Main Layout
+-------------------------------------------------- */
+
+.book {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+
+.book-header,
+.book-footer {
+    display: none;
+}
+
+.book-content {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* --------------------------------------------------
+   Typography
+-------------------------------------------------- */
 
 h1 {
-    page-break-before: always;
-    page-break-after: avoid;
-
-    border-bottom: 3px solid #2b7cff;
-
-    padding-bottom: .3em;
-
-    margin-top: 0;
-}
-
-h1:first-of-type {
-    page-break-before: auto;
-}
-
-h2,
-h3,
-h4 {
+    margin: 2rem 0 1rem;
+    font-size: 2.2rem;
+    color: #111827;
     page-break-after: avoid;
 }
 
-/* ---------------- Paragraph ---------------- */
+h2 {
+    margin: 2rem 0 .8rem;
+    font-size: 1.7rem;
+    color: #1f2937;
+    page-break-after: avoid;
+}
+
+h3 {
+    margin: 1.5rem 0 .6rem;
+    font-size: 1.3rem;
+}
 
 p {
-    margin: .8em 0;
+    margin: .8rem 0;
 }
-
-/* ---------------- Lists ---------------- */
 
 ul,
 ol {
-    margin-left: 1.5em;
+    padding-left: 1.5rem;
 }
 
-/* ---------------- Code ---------------- */
+li {
+    margin: .35rem 0;
+}
+
+/* --------------------------------------------------
+   Images
+-------------------------------------------------- */
+
+img {
+    display: block;
+
+    max-width: 100%;
+    height: auto;
+
+    margin: 1.5rem auto;
+
+    page-break-inside: avoid;
+}
+
+/* --------------------------------------------------
+   Tables
+-------------------------------------------------- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+
+    table-layout: auto;
+
+    font-size: 0.88rem;
+
+    page-break-inside: avoid;
+}
+
+thead {
+    background: #f3f4f6;
+}
+
+th,
+td {
+    border: 1px solid #d1d5db;
+
+    padding: .55rem;
+
+    text-align: left;
+    vertical-align: top;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+th {
+    font-weight: 700;
+}
+
+/* Smart table widths */
+
+.doc-table.cols-5 th:nth-child(1),
+.doc-table.cols-5 td:nth-child(1) {
+    width: 20%;
+}
+
+.doc-table.cols-5 th:nth-child(2),
+.doc-table.cols-5 td:nth-child(2) {
+    width: 44%;
+}
+
+.doc-table.cols-5 th:nth-child(3),
+.doc-table.cols-5 td:nth-child(3),
+.doc-table.cols-5 th:nth-child(4),
+.doc-table.cols-5 td:nth-child(4),
+.doc-table.cols-5 th:nth-child(5),
+.doc-table.cols-5 td:nth-child(5) {
+    width: 12%;
+}
+
+/* --------------------------------------------------
+   Code
+-------------------------------------------------- */
 
 pre {
+    margin: 1.5rem 0;
 
-    background: #f6f8fa;
+    padding: 1rem;
 
-    border-radius: 6px;
+    border-radius: 8px;
 
-    padding: 14px;
+    background: #111827;
+    color: #f9fafb;
 
-    overflow-x: auto;
+    font-size: .90rem;
+    line-height: 1.55;
 
     white-space: pre-wrap;
-
+    overflow-wrap: anywhere;
     word-break: break-word;
 
     page-break-inside: avoid;
 }
 
-code {
+pre code {
+    display: block;
 
+    white-space: inherit;
+
+    background: transparent;
+    color: inherit;
+}
+
+code {
     font-family:
-        Menlo,
+        "JetBrains Mono",
+        "SFMono-Regular",
         Consolas,
+        Menlo,
         monospace;
 }
 
-/* ---------------- Tables ---------------- */
+p code,
+li code,
+td code,
+th code {
+    background: #f3f4f6;
+    color: #c7254e;
 
-table {
+    padding: .1rem .3rem;
 
-    width: 100%;
-
-    border-collapse: collapse;
-
-    margin: 1.5em 0;
-
-    page-break-inside: avoid;
+    border-radius: 4px;
 }
 
-th {
-
-    background: #f2f2f2;
-}
-
-th,
-td {
-
-    border: 1px solid #ddd;
-
-    padding: 8px;
-}
-
-/* ---------------- Images ---------------- */
-
-img {
-
-    display: block;
-
-    max-width: 85%;
-
-    max-height: 650px;
-
-    width: auto;
-
-    height: auto;
-
-    margin: 1.8em auto;
-
-    page-break-inside: avoid;
-}
-
-/* ---------------- Blockquote ---------------- */
+/* --------------------------------------------------
+   Blockquote
+-------------------------------------------------- */
 
 blockquote {
+    margin: 1.5rem 0;
 
-    border-left: 4px solid #ddd;
+    padding: .8rem 1rem;
 
-    margin-left: 0;
+    border-left: 4px solid #2563eb;
 
-    padding-left: 1em;
+    background: #f8fafc;
 
-    color: #666;
+    color: #555;
 }
 
-/* ---------------- Links ---------------- */
+/* --------------------------------------------------
+   Links
+-------------------------------------------------- */
 
 a {
-
-    color: #1565c0;
-
+    color: #2563eb;
     text-decoration: none;
 }
 
 a:hover {
-
     text-decoration: underline;
 }
 
-/* =========================================
-   Cover Page
-========================================= */
+/* --------------------------------------------------
+   Page Break
+-------------------------------------------------- */
 
-.cover{
-
-    height:90vh;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    text-align:center;
-
-}
-
-.cover h1{
-
-    border:none;
-
-    font-size:3em;
-
-    margin-bottom:.4em;
-
-    page-break-before:auto;
-
-}
-
-.cover .subtitle{
-
-    font-size:1.2em;
-
-    color:#666;
-
-}
-
-.page-break{
-
-    page-break-after:always;
-
+.page-break {
+    page-break-after: always;
 }

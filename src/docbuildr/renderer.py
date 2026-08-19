@@ -1,5 +1,7 @@
-from pathlib import Path
+from __future__ import annotations
+
 from datetime import date
+from pathlib import Path
 import shutil
 
 import markdown
@@ -8,9 +10,11 @@ from jinja2 import Environment, FileSystemLoader
 from docbuildr.book import BookBuilder
 from docbuildr.crawler import MarkdownPage
 from docbuildr.metadata import BookMetadata
+from docbuildr.renderers import HTMLPostProcessor
 
 
 class MarkdownRenderer:
+    """Render a documentation book to Markdown and HTML."""
 
     def render(
         self,
@@ -25,29 +29,26 @@ class MarkdownRenderer:
             exist_ok=True,
         )
 
-        # Build the markdown book
-        builder = BookBuilder()
-
         metadata = BookMetadata(
             title=title,
             source=source,
             generated=date.today().strftime("%d %B %Y"),
         )
 
-        text = builder.build(
+        builder = BookBuilder()
+
+        markdown_text = builder.build(
             docs=docs,
             metadata=metadata,
         )
 
-        # Save merged markdown
         output.write_text(
-            text,
+            markdown_text,
             encoding="utf-8",
         )
 
-        # Markdown -> HTML
         html = markdown.markdown(
-            text,
+            markdown_text,
             extensions=[
                 "tables",
                 "toc",
@@ -55,13 +56,16 @@ class MarkdownRenderer:
             ],
         )
 
-        # Load HTML template
+        processor = HTMLPostProcessor()
+
+        html = processor.process(html)
+
         env = Environment(
-            loader=FileSystemLoader("templates")
+            loader=FileSystemLoader("templates"),
         )
 
         template = env.get_template(
-            "book.html"
+            "book.html",
         )
 
         final_html = template.render(
@@ -69,7 +73,6 @@ class MarkdownRenderer:
             content=html,
         )
 
-        # Save HTML
         html_file = output.with_suffix(".html")
 
         html_file.write_text(
@@ -77,7 +80,6 @@ class MarkdownRenderer:
             encoding="utf-8",
         )
 
-        # Copy styles directory
         styles_src = Path("templates/styles")
         styles_dst = output.parent / "styles"
 

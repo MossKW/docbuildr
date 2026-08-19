@@ -12,3 +12,9 @@ class BookMetadata:
     source: str
 
     generated: str
+
+    version: str = "0.3.0-alpha2"
+
+    generator: str = "DocBuildr"
+
+    license: str = "Original documentation license"
