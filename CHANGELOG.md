@@ -7,6 +7,9 @@ The format is based on **Keep a Changelog** and this project follows **Semantic 
 ---
 # Changelog
 
+## v1.0.3
+- Fixed missing book.html template in package
+
 ## v1.0.2
 - Fixed PDF page numbering
 - Improved syntax highlighting

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>{{ title }}</title>
+
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/layout.css">
+<link rel="stylesheet" href="styles/toc.css">
+<link rel="stylesheet" href="styles/chapter.css">
+<link rel="stylesheet" href="styles/table.css">
+<link rel="stylesheet" href="styles/code.css">
+<link rel="stylesheet" href="styles/print.css">
+<link rel="stylesheet" href="styles/cover.css">
+
+{% if katex %}
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/contrib/auto-render.min.js"></script>
+{% endif %}
+
+<script defer src="vendor/mermaid/mermaid.min.js"></script>
+
+</head>
+
+<body>
+
+<header class="running-header">
+
+<span class="header-left">{{ title }}</span>
+<span class="header-right"></span>
+
+</header>
+
+<main class="book">
+
+{{ body | safe }}
+
+</main>
+
+<footer class="running-footer">
+
+<span class="footer-left">
+Generated with DocBuildr
+</span>
+
+<span class="page-number"></span>
+
+</footer>
+
+{% if katex %}
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+renderMathInElement(document.body, {
+
+delimiters: [
+{left:"$$", right:"$$", display:true},
+{left:"$", right:"$", display:false},
+{left:"\\(", right:"\\)", display:false},
+{left:"\\[", right:"\\]", display:true},
+],
+
+throwOnError:false
+
+});
+
+});
+
+</script>
+{% endif %}
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+if (window.mermaid) {
+
+mermaid.initialize({
+
+startOnLoad: true,
+theme: "default"
+
+});
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>
