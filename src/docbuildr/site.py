@@ -15,6 +15,7 @@ class Page:
 
 
 class SiteAdapter(ABC):
+    """Base class for supported documentation sites."""
 
     def __init__(self, base_url: str):
         self.base_url = base_url.rstrip("/")
@@ -29,6 +30,7 @@ class SiteAdapter(ABC):
 
 
 class DocsifySite(SiteAdapter):
+    """Docsify documentation."""
 
     def pages(self) -> list[Page]:
 
@@ -40,7 +42,6 @@ class DocsifySite(SiteAdapter):
 
         sidebar = response.text
 
-        # Remove HTML comments
         sidebar = re.sub(
             r"<!--.*?-->",
             "",
@@ -71,49 +72,68 @@ class DocsifySite(SiteAdapter):
         return pages
 
     def title(self) -> str:
-        """
-        Return a human-readable documentation title.
-        """
+        return fetch_title(self.base_url)
 
-        try:
 
-            response = requests.get(
-                self.base_url,
-                timeout=15,
-            )
+class GenericSite(SiteAdapter):
+    """
+    Placeholder for generic HTML documentation.
 
-            response.raise_for_status()
+    This will become the default fallback in v1.1.
+    """
 
-            html = response.text
+    def pages(self) -> list[Page]:
 
-            # Try HTML <title>
-            match = re.search(
-                r"<title>(.*?)</title>",
-                html,
-                flags=re.IGNORECASE | re.DOTALL,
-            )
+        raise RuntimeError(
+            "Generic HTML support is not implemented yet."
+        )
 
-            if match:
+    def title(self) -> str:
+        return fetch_title(self.base_url)
 
-                title = re.sub(
-                    r"\s+",
-                    " ",
-                    match.group(1),
-                ).strip()
 
-                if title:
-                    return title
+def fetch_title(url: str) -> str:
+    """
+    Return a human-readable documentation title.
+    """
 
-        except requests.RequestException:
-            pass
+    try:
 
-        # Fallback: use last part of URL
-        slug = self.base_url.rstrip("/").split("/")[-1]
+        response = requests.get(
+            url,
+            timeout=15,
+        )
 
-        if slug:
-            return slug.replace("-", " ").title()
+        response.raise_for_status()
 
-        return "Documentation"
+        html = response.text
+
+        match = re.search(
+            r"<title>(.*?)</title>",
+            html,
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+
+        if match:
+
+            title = re.sub(
+                r"\s+",
+                " ",
+                match.group(1),
+            ).strip()
+
+            if title:
+                return title
+
+    except requests.RequestException:
+        pass
+
+    slug = url.rstrip("/").split("/")[-1]
+
+    if slug:
+        return slug.replace("-", " ").title()
+
+    return "Documentation"
 
 
 def detect_site(url: str) -> SiteAdapter:
@@ -125,11 +145,33 @@ def detect_site(url: str) -> SiteAdapter:
 
     response.raise_for_status()
 
-    html = response.text
+    html = response.text.lower()
 
+    #
+    # Docsify
+    #
     if "$docsify" in html:
         return DocsifySite(url)
 
-    raise RuntimeError(
-        f"Unsupported documentation framework: {url}"
-    )
+    #
+    # Future detectors
+    #
+    if "mkdocs" in html:
+        raise RuntimeError(
+            "MkDocs support is coming in DocBuildr v1.1."
+        )
+
+    if "docusaurus" in html:
+        raise RuntimeError(
+            "Docusaurus support is planned."
+        )
+
+    if "sphinx" in html:
+        raise RuntimeError(
+            "Sphinx support is planned."
+        )
+
+    #
+    # Generic HTML
+    #
+    return GenericSite(url)
