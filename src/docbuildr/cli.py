@@ -76,8 +76,26 @@ def build_parser() -> argparse.ArgumentParser:
         help="Enable verbose output",
     )
 
+    parser.add_argument(
+        "--max-pages",
+        type=int,
+        default=None,
+        metavar="N",
+        help="Download at most N pages.",
+    )
+
     return parser
 
+def filter_pages(
+    pages,
+    config: DocBuildrConfig,
+):
+    """Apply page filters."""
+
+    if config.max_pages is not None:
+        pages = pages[: config.max_pages]
+
+    return pages
 
 def main() -> None:
 
@@ -91,16 +109,22 @@ def main() -> None:
         output_name=args.output_name,
         pdf=not args.html_only,
         verbose=args.verbose,
+        max_pages=args.max_pages,
     )
 
     if config.verbose:
         print("Detecting documentation site...")
 
-    site = detect_site(config.url)
-    pages = site.pages()
+        site = detect_site(config.url)
 
-    if config.verbose:
-        print(f"Found {len(pages)} pages")
+        pages = site.pages()
+        pages = filter_pages(
+            pages,
+            config,
+)
+
+if config.verbose:
+    print(f"Found {len(pages)} pages")
 
     crawler = MarkdownCrawler()
     docs = crawler.fetch(pages)

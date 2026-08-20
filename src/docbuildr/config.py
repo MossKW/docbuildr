@@ -26,6 +26,9 @@ class DocBuildrConfig:
     # Console
     verbose: bool = False
 
+    # Crawling
+    max_pages: int | None = None
+
     # Theme
     theme: str = "book"
 
