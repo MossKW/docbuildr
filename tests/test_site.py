@@ -29,3 +29,27 @@ def test_fallback_title_from_slug():
     slug = site.base_url.rstrip("/").split("/")[-1]
 
     assert slug.replace("-", " ").title() == "My Awesome Docs"
+
+from unittest.mock import Mock, patch
+
+from docbuildr.site import MkDocsSite, detect_site
+
+
+@patch("docbuildr.site.requests.get")
+def test_detect_mkdocs(mock_get):
+
+    html = Mock()
+    html.text = "<html></html>"
+    html.raise_for_status.return_value = None
+
+    search = Mock()
+    search.status_code = 200
+
+    mock_get.side_effect = [
+        html,
+        search,
+    ]
+
+    site = detect_site("https://example.com")
+
+    assert isinstance(site, MkDocsSite)

@@ -73,6 +73,37 @@ class DocsifySite(SiteAdapter):
     def title(self) -> str:
         return fetch_title(self.base_url)
 
+class MkDocsSite(SiteAdapter):
+    """MkDocs documentation."""
+
+    def pages(self) -> list[Page]:
+
+        response = requests.get(
+            f"{self.base_url}/search/search_index.json",
+            timeout=30,
+        )
+        response.raise_for_status()
+
+        data = response.json()
+
+        pages: list[Page] = []
+
+        for doc in data.get("docs", []):
+
+            location = doc.get("location", "").lstrip("/")
+
+            pages.append(
+                Page(
+                    title=doc.get("title", location),
+                    path=location,
+                    markdown_url=f"{self.base_url}/{location}",
+                )
+            )
+
+        return pages
+
+    def title(self) -> str:
+        return fetch_title(self.base_url)
 
 class GenericSite(SiteAdapter):
     """
@@ -145,8 +176,26 @@ def detect_site(url: str) -> SiteAdapter:
 
     html = response.text
 
+    #
+    # Docsify
+    #
     if "$docsify" in html:
         return DocsifySite(url)
+
+    #
+    # MkDocs
+    #
+    try:
+        search = requests.get(
+            f"{url.rstrip('/')}/search/search_index.json",
+            timeout=5,
+        )
+
+        if search.status_code == 200:
+            return MkDocsSite(url)
+
+    except requests.RequestException:
+        pass
 
     raise RuntimeError(
         f"Unsupported documentation framework: {url}"

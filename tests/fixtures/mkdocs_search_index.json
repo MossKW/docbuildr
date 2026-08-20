@@ -1,0 +1,16 @@
+{
+  "docs": [
+    {
+      "location": "index.html",
+      "title": "Home"
+    },
+    {
+      "location": "installation/",
+      "title": "Installation"
+    },
+    {
+      "location": "usage/",
+      "title": "Usage"
+    }
+  ]
+}

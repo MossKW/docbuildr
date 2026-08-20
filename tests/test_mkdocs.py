@@ -1,19 +1,38 @@
 from unittest.mock import Mock, patch
 
-from docbuildr.detect import Framework, detect_framework
+from docbuildr.site import MkDocsSite
 
 
-@patch("docbuildr.detect.requests.get")
-def test_detect_mkdocs(mock_get):
-    mock_get.return_value = Mock(status_code=404)
+@patch("docbuildr.site.requests.get")
+def test_mkdocs_pages(mock_get):
 
-    def side_effect(url, timeout=5):
-        response = Mock()
-        response.status_code = (
-            200 if url.endswith("/search/search_index.json") else 404
-        )
-        return response
+    response = Mock()
 
-    mock_get.side_effect = side_effect
+    response.json.return_value = {
+        "docs": [
+            {
+                "location": "index.html",
+                "title": "Home",
+            },
+            {
+                "location": "installation/",
+                "title": "Installation",
+            },
+        ]
+    }
 
-    assert detect_framework("https://example.com") == Framework.MKDOCS
+    response.raise_for_status.return_value = None
+
+    mock_get.return_value = response
+
+    site = MkDocsSite("https://example.com")
+
+    pages = site.pages()
+
+    assert len(pages) == 2
+
+    assert pages[0].title == "Home"
+    assert pages[0].path == "index.html"
+
+    assert pages[1].title == "Installation"
+    assert pages[1].path == "installation/"
