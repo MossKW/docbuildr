@@ -8,12 +8,11 @@ from docbuildr.crawler import MarkdownCrawler
 from docbuildr.pdf import PDFExporter
 from docbuildr.preprocessor import MarkdownPreprocessor
 from docbuildr.renderer import MarkdownRenderer
-from docbuildr.site import detect_site
+from docbuildr.site import Page, detect_site
 from docbuildr.viewer import DocsifyViewer
 
 
 def build_parser() -> argparse.ArgumentParser:
-
     parser = argparse.ArgumentParser(
         prog="docbuildr",
         description=(
@@ -30,7 +29,16 @@ def build_parser() -> argparse.ArgumentParser:
             "  docbuildr https://gthlab.au/panaroo "
             "--html-only\n\n"
             "  docbuildr https://gthlab.au/panaroo "
-            "--verbose"
+            "--verbose\n\n"
+            "  docbuildr https://gthlab.au/panaroo "
+            "--max-pages 10\n\n"
+            "  docbuildr https://gthlab.au/panaroo "
+            "--include Installation\n\n"
+            "  docbuildr https://gthlab.au/panaroo "
+            "--exclude FAQ\n\n"
+            "  docbuildr https://gthlab.au/panaroo "
+            "--include Installation Tutorial "
+            "--max-pages 10"
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -81,24 +89,59 @@ def build_parser() -> argparse.ArgumentParser:
         type=int,
         default=None,
         metavar="N",
-        help="Download at most N pages.",
+        help="Limit the number of pages to download.",
+    )
+
+    parser.add_argument(
+        "--include",
+        nargs="+",
+        metavar="KEYWORD",
+        help="Include only pages whose title contains one or more keywords.",
+    )
+
+    parser.add_argument(
+        "--exclude",
+        nargs="+",
+        metavar="KEYWORD",
+        help="Exclude pages whose title contains one or more keywords.",
     )
 
     return parser
 
+
 def filter_pages(
-    pages,
+    pages: list[Page],
     config: DocBuildrConfig,
-):
+) -> list[Page]:
     """Apply page filters."""
+
+    if config.include:
+        pages = [
+            page
+            for page in pages
+            if any(
+                keyword.lower() in page.title.lower()
+                for keyword in config.include
+            )
+        ]
+
+    if config.exclude:
+        pages = [
+            page
+            for page in pages
+            if not any(
+                keyword.lower() in page.title.lower()
+                for keyword in config.exclude
+            )
+        ]
 
     if config.max_pages is not None:
         pages = pages[: config.max_pages]
 
     return pages
 
-def main() -> None:
 
+def main() -> None:
     parser = build_parser()
     args = parser.parse_args()
 
@@ -110,6 +153,8 @@ def main() -> None:
         pdf=not args.html_only,
         verbose=args.verbose,
         max_pages=args.max_pages,
+        include=args.include,
+        exclude=args.exclude,
     )
 
     if config.verbose:
@@ -142,7 +187,6 @@ def main() -> None:
     )
 
     if config.viewer:
-
         viewer = DocsifyViewer()
 
         viewer.create(
@@ -151,7 +195,6 @@ def main() -> None:
         )
 
     if config.pdf:
-
         exporter = PDFExporter()
 
         exporter.export(
@@ -172,6 +215,7 @@ def main() -> None:
 
     if config.pdf:
         print(f"PDF      : {config.pdf_file}")
+
 
 if __name__ == "__main__":
     main()

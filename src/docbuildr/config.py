@@ -28,6 +28,8 @@ class DocBuildrConfig:
 
     # Crawling
     max_pages: int | None = None
+    include: list[str] | None = None
+    exclude: list[str] | None = None
 
     # Theme
     theme: str = "book"
