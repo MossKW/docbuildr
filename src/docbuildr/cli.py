@@ -115,16 +115,16 @@ def main() -> None:
     if config.verbose:
         print("Detecting documentation site...")
 
-        site = detect_site(config.url)
+    site = detect_site(config.url)
 
-        pages = site.pages()
-        pages = filter_pages(
-            pages,
-            config,
-)
+    pages = site.pages()
+    pages = filter_pages(
+        pages,
+        config,
+    )
 
-if config.verbose:
-    print(f"Found {len(pages)} pages")
+    if config.verbose:
+        print(f"Found {len(pages)} pages")
 
     crawler = MarkdownCrawler()
     docs = crawler.fetch(pages)
@@ -172,7 +172,6 @@ if config.verbose:
 
     if config.pdf:
         print(f"PDF      : {config.pdf_file}")
-
 
 if __name__ == "__main__":
     main()
