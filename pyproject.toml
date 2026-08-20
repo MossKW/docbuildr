@@ -46,6 +46,7 @@ dependencies = [
     "lxml>=6.1",
     "markdown>=3.8",
     "markdownify>=1.2",
+    "Pygments>=2.19",
     "requests>=2.32",
 ]
 

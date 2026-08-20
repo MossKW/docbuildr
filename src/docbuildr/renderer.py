@@ -11,8 +11,11 @@ from docbuildr.assets import AssetManager
 from docbuildr.book import BookBuilder
 from docbuildr.crawler import MarkdownPage
 from docbuildr.metadata import BookMetadata
-from docbuildr.renderers import HTMLPostProcessor
 
+from docbuildr.renderers import (
+    HTMLPostProcessor,
+    SmartCodeFence,
+)
 
 class MarkdownRenderer:
     """Render a documentation book to Markdown and HTML."""
@@ -35,10 +38,12 @@ class MarkdownRenderer:
             source=source,
             generated=date.today().strftime("%d %B %Y"),
         )
-
         markdown_text = BookBuilder().build(
             docs=docs,
             metadata=metadata,
+        )
+        markdown_text = SmartCodeFence().process(
+            markdown_text,
         )
 
         output.write_text(
