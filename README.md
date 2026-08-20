@@ -1,14 +1,30 @@
 # DocBuildr
 
-> Build beautiful PDF books from online documentation.
+```{=html}
+<p align="center">
+```
+`<strong>`{=html}Convert documentation websites into beautiful Markdown,
+HTML, and PDF books.`</strong>`{=html}
+```{=html}
+</p>
+```
+```{=html}
+<p align="center">
+```
+[![PyPI](https://img.shields.io/pypi/v/docbuildr.svg)](https://pypi.org/project/docbuildr/)
+[![Python](https://img.shields.io/pypi/pyversions/docbuildr.svg)](https://pypi.org/project/docbuildr/)
+[![License](https://img.shields.io/github/license/MossKW/docbuildr)](LICENSE)
+[![Downloads](https://img.shields.io/pypi/dm/docbuildr)](https://pypi.org/project/docbuildr/)
 
+```{=html}
+</p>
+```
 DocBuildr is a command-line tool that crawls documentation websites,
 merges pages into a single book, and generates professional-quality
-Markdown, HTML, and PDF outputs.
+**Markdown**, **HTML**, and **PDF** outputs.
 
-Designed for developers, researchers, engineers, and scientists who want
-offline documentation with clean typography, mathematical rendering, and
-print-friendly layouts.
+Designed for developers, researchers, engineers, and scientists who need
+clean, offline documentation with print-ready formatting.
 
 ------------------------------------------------------------------------
 
@@ -16,116 +32,86 @@ print-friendly layouts.
 
 -   📖 Crawl documentation websites automatically
 -   📚 Merge multiple pages into a single book
--   📝 Generate clean Markdown output
--   🌐 Export standalone HTML
--   📄 Export print-ready PDF
--   🎨 Professional book layout
--   🖼 Responsive images
--   📊 Smart table formatting
--   💻 Optimized code blocks
+-   📝 Generate Markdown
+-   🌐 Generate standalone HTML
+-   📄 Generate print-ready PDF
+-   🖥 Interactive HTML Viewer
 -   📑 Automatic table of contents
--   ➗ Offline KaTeX math rendering
--   ✅ Syntax highlighting
+-   💻 Syntax-highlighted code blocks
+-   ➗ Offline KaTeX rendering
+-   📊 Smart table formatting
+-   🖼 Automatic image downloading
 -   ✅ Unit-tested core components
--   🔄 GitHub Actions continuous integration
--   ⚡ Simple command-line interface
 
 ------------------------------------------------------------------------
 
 ## Installation
 
-Install from PyPI
-
 ``` bash
 pip install docbuildr
 ```
 
-Install Chromium
+Install Chromium:
 
 ``` bash
 playwright install chromium
 ```
-
-Or install the latest development version
-
-``` bash
-git clone https://github.com/MossKW/docbuildr.git
-cd docbuildr
-pip install -e ".[dev]"
-```
-
-------------------------------------------------------------------------
-
-## Requirements
-
--   Python 3.11+
--   Playwright
--   Chromium browser
 
 ------------------------------------------------------------------------
 
 ## Quick Start
 
 ``` bash
-docbuildr https://gthlab.au/panaroo --title "Panaroo User Guide"
+docbuildr https://gthlab.au/panaroo
 ```
-
-Produces
 
 ``` text
 output/
 ├── book.md
 ├── book.html
-├── book.pdf
-└── viewer.html
+├── viewer.html
+└── book.pdf
 ```
 
 ------------------------------------------------------------------------
 
-## Current Features
+## Supported Content
 
-  Feature                    Status
-  ------------------------- --------
-  Documentation crawler        ✅
-  Markdown export              ✅
-  HTML export                  ✅
-  PDF export                   ✅
-  Table of contents            ✅
-  Cover page                   ✅
-  Smart tables                 ✅
-  Print layout                 ✅
-  Viewer                       ✅
-  Professional CLI             ✅
-  Offline KaTeX rendering      ✅
-  Syntax highlighting          ✅
-  Unit tests                   ✅
-  GitHub Actions CI            ✅
-  Theme engine                 🚧
-  EPUB export                  🚧
-  Search index                 🚧
-  Plugin system                🚧
-
-------------------------------------------------------------------------
-
-## Roadmap
-
-### Upcoming
-
--   Theme engine
--   EPUB export
--   Search index
--   Plugin system
+-   Markdown
+-   Tables
+-   Code blocks
+-   Images
+-   Mermaid diagrams
+-   KaTeX equations
+-   Nested headings
+-   Internal links
 
 ------------------------------------------------------------------------
 
 ## Development
 
 ``` bash
+git clone https://github.com/MossKW/docbuildr.git
+cd docbuildr
 pip install -e ".[dev]"
-python -m compileall src
 python -m pytest
-python -m pytest --cov=docbuildr
+python -m build
 ```
+
+------------------------------------------------------------------------
+
+## Roadmap
+
+-   [x] Markdown export
+-   [x] HTML export
+-   [x] PDF export
+-   [x] HTML Viewer
+-   [x] Mermaid support
+-   [x] KaTeX support
+-   [ ] EPUB export
+-   [ ] Search index
+-   [ ] Theme engine
+-   [ ] Plugin system
 
 ------------------------------------------------------------------------
 
@@ -146,5 +132,3 @@ MIT License
 ## Author
 
 Developed by **Moss.kw**
-
-Built with Python, Playwright, and modern web technologies.
