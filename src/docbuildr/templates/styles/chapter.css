@@ -1,47 +1,116 @@
-/* Chapter typography */
+/* ==================================================
+   Chapter Typography
+================================================== */
 
 h1 {
-    margin: 2rem 0 1rem;
-    font-size: 2.2rem;
+    margin: 0 0 1.25rem;
+
+    padding-bottom: .6rem;
+
+    border-bottom: 2px solid #e5e7eb;
+
+    font-size: 2.35rem;
+    font-weight: 800;
+
+    line-height: 1.2;
+
     color: #111827;
+
     page-break-after: avoid;
 }
 
 h2 {
-    margin: 2rem 0 .8rem;
+    margin: 2.25rem 0 .9rem;
+
+    padding-bottom: .3rem;
+
+    border-bottom: 1px solid #e5e7eb;
+
     font-size: 1.7rem;
+    font-weight: 700;
+
+    line-height: 1.3;
+
     color: #1f2937;
+
     page-break-after: avoid;
 }
 
 h3 {
+    margin: 1.75rem 0 .7rem;
+
+    font-size: 1.35rem;
+    font-weight: 700;
+
+    line-height: 1.35;
+
+    color: #374151;
+}
+
+h4 {
     margin: 1.5rem 0 .6rem;
-    font-size: 1.3rem;
+
+    font-size: 1.1rem;
+    font-weight: 700;
+
+    color: #4b5563;
 }
 
 p {
-    margin: .8rem 0;
+    margin: 0 0 1rem;
+
+    line-height: 1.8;
+
+    color: #222;
 }
 
 ul,
 ol {
-    padding-left: 1.5rem;
+    margin: 1rem 0;
+    padding-left: 1.8rem;
 }
 
 li {
-    margin: .35rem 0;
+    margin: .45rem 0;
+
+    line-height: 1.75;
 }
 
-/* Blockquotes */
+li > ul,
+li > ol {
+    margin-top: .4rem;
+}
+
+/* ==================================================
+   Horizontal Rules
+================================================== */
+
+hr {
+    margin: 2rem 0;
+
+    border: 0;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+/* ==================================================
+   Blockquotes
+================================================== */
 
 blockquote {
-    margin: 1.5rem 0;
+    margin: 1.8rem 0;
 
-    padding: .8rem 1rem;
+    padding: 1rem 1.25rem;
 
     border-left: 4px solid #2563eb;
 
     background: #f8fafc;
 
-    color: #555;
+    color: #475569;
+
+    font-style: italic;
+}
+
+blockquote p:last-child {
+    margin-bottom: 0;
 }
