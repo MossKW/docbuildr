@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 from datetime import date
-from pathlib import Path
 from importlib.resources import files
+from pathlib import Path
 
 import markdown
 from jinja2 import Environment, FileSystemLoader
@@ -52,7 +52,15 @@ class MarkdownRenderer:
                 "tables",
                 "toc",
                 "fenced_code",
+                "codehilite",
             ],
+            extension_configs={
+                "codehilite": {
+                    "guess_lang": False,
+                    "linenums": False,
+                    "css_class": "highlight",
+                },
+            },
         )
 
         html = HTMLPostProcessor().process(html)
