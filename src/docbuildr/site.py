@@ -6,7 +6,6 @@ import re
 
 import requests
 
-
 @dataclass(slots=True)
 class Page:
     title: str
@@ -135,7 +134,6 @@ def fetch_title(url: str) -> str:
 
     return "Documentation"
 
-
 def detect_site(url: str) -> SiteAdapter:
 
     response = requests.get(
@@ -145,33 +143,11 @@ def detect_site(url: str) -> SiteAdapter:
 
     response.raise_for_status()
 
-    html = response.text.lower()
+    html = response.text
 
-    #
-    # Docsify
-    #
     if "$docsify" in html:
         return DocsifySite(url)
 
-    #
-    # Future detectors
-    #
-    if "mkdocs" in html:
-        raise RuntimeError(
-            "MkDocs support is coming in DocBuildr v1.1."
-        )
-
-    if "docusaurus" in html:
-        raise RuntimeError(
-            "Docusaurus support is planned."
-        )
-
-    if "sphinx" in html:
-        raise RuntimeError(
-            "Sphinx support is planned."
-        )
-
-    #
-    # Generic HTML
-    #
-    return GenericSite(url)
+    raise RuntimeError(
+        f"Unsupported documentation framework: {url}"
+    )
