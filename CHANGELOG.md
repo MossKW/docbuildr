@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on **Keep a Changelog** and this project follows **Semantic Versioning (SemVer)**.
 
 ---
+# Changelog
+
+## v1.0.2
+- Fixed PDF page numbering
+- Improved syntax highlighting
+- Faster HTML rendering
+
+## v1.0.1
+- Fixed version reporting
+- Improved packaging metadata
+
+## v1.0.0
+- First stable release
 
 ## [Unreleased]
 

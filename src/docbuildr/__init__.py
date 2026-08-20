@@ -1,3 +1,6 @@
-"""DocBuildr."""
+from importlib.metadata import version, PackageNotFoundError
 
-__version__ = "0.3.0a4"
+try:
+    __version__ = version("docbuildr")
+except PackageNotFoundError:
+    __version__ = "0.0.0"

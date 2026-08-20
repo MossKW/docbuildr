@@ -20,6 +20,8 @@ docs2pdf-env/
 docbuildr-test/
 docbuildr-final-test/
 final-test/
+test-install/
+verify/
 
 # Testing
 .pytest_cache/
