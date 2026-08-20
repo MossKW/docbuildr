@@ -6,55 +6,25 @@ on:
       - main
       - feature/**
   pull_request:
-    branches:
-      - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-
-    timeout-minutes: 15
 
     strategy:
       matrix:
-        python-version:
-          - "3.11"
+        python-version: ["3.11", "3.12"]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: pip
 
-      - name: Install Playwright dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libnss3 \
-            libatk-bridge2.0-0 \
-            libdrm2 \
-            libxkbcommon0 \
-            libgtk-3-0 \
-            libgbm1
+      - run: python -m pip install --upgrade pip
+      - run: pip install -e ".[dev]"
 
-      - name: Install package
-        run: |
-          python -m pip install --upgrade pip
-          pip install -e .
+      - run: python -m compileall src
 
-      - name: Install Chromium
-        run: |
-          python -m playwright install chromium
-
-      - name: Compile source
-        run: |
-          python -m compileall src
-
-      - name: Smoke test
-        run: |
-          docbuildr --version
-          docbuildr --help
+      - run: python -m pytest
