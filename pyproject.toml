@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "docbuildr"
-version = "0.3.0a7"
+version = "0.3.0a8"
 
 description = "Generate Markdown, HTML, and PDF books from online documentation."
 readme = "README.md"
