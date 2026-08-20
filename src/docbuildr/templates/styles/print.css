@@ -12,13 +12,8 @@
 /* Semantic print layout */
 
 .chapter-title {
-    page-break-before: always;
-    break-before: page;
-}
-
-.chapter-title:first-of-type {
-    page-break-before: auto;
-    break-before: auto;
+    page-break-after: avoid;
+    break-after: avoid;
 }
 
 .doc-table,
