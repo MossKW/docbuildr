@@ -79,12 +79,11 @@ class HTMLExtractor:
         )
 
         root = None
+        best_len = -1
 
         #
         # Pick the largest matching container
         #
-        best_len = -1
-
         for selector in self.SELECTORS:
 
             for candidate in soup.select(selector):
@@ -105,12 +104,11 @@ class HTMLExtractor:
             root = soup.body or soup
 
         #
-        # Remove layout INSIDE root only
+        # Remove layout inside root only
         #
         for selector in self.REMOVE_SELECTORS:
 
             for tag in root.select(selector):
-
                 tag.decompose()
 
         #
@@ -122,7 +120,15 @@ class HTMLExtractor:
             tag.decompose()
 
         #
-        # Remove "Skip to content" links
+        # Remove empty anchors
+        #
+        for tag in root.find_all("a"):
+
+            if tag.get("id"):
+                tag.decompose()
+
+        #
+        # Remove Skip to content links
         #
         for tag in root.find_all("a"):
 
@@ -143,19 +149,8 @@ class HTMLExtractor:
         #
         # Remove buttons
         #
-        for tag in root.find_all(
-            ["button"]
-        ):
+        for tag in root.find_all("button"):
             tag.decompose()
-
-        #
-        # Remove existing anchors
-        #
-        for tag in root.find_all("a"):
-
-           if tag.get("id"):
-                tag.decompose()
-
 
         #
         # Remove duplicate headings
@@ -229,6 +224,13 @@ class HTMLExtractor:
         markdown = "\n".join(lines).strip()
 
         #
+        # Improve MkDocs feature lists
+        #
+        markdown = self._fix_mkdocs_lists(
+            markdown,
+        )
+
+        #
         # Fallback
         #
         if len(markdown) < 50:
@@ -238,4 +240,33 @@ class HTMLExtractor:
                 strip=True,
             )
 
-        return markdown	
+        return markdown
+
+    def _fix_mkdocs_lists(
+        self,
+        markdown: str,
+    ) -> str:
+        """
+        Fix Markdown generated from MkDocs Material feature cards.
+
+        Convert
+
+        * ## Heading
+
+        into
+
+        ## Heading
+        """
+
+        output = []
+
+        for line in markdown.splitlines():
+
+            stripped = line.lstrip()
+
+            if stripped.startswith("* ## "):
+                output.append(stripped[2:])
+            else:
+                output.append(line)
+
+        return "\n".join(output)
