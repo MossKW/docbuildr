@@ -16,14 +16,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="docbuildr",
         description=(
-            "Generate Markdown, HTML, and PDF books "
-            "from online documentation."
+            "Generate Markdown, HTML, and PDF books " "from online documentation."
         ),
         epilog=(
             "Examples:\n"
             "  docbuildr https://gthlab.au/panaroo\n\n"
             "  docbuildr https://gthlab.au/panaroo "
-            "--title \"Panaroo User Guide\"\n\n"
+            '--title "Panaroo User Guide"\n\n'
             "  docbuildr https://gthlab.au/panaroo "
             "--output-name panaroo\n\n"
             "  docbuildr https://gthlab.au/panaroo "
@@ -36,6 +35,8 @@ def build_parser() -> argparse.ArgumentParser:
             "--include Installation\n\n"
             "  docbuildr https://gthlab.au/panaroo "
             "--exclude FAQ\n\n"
+            "  docbuildr https://gthlab.au/panaroo "
+            "--docs-only\n\n"
             "  docbuildr https://gthlab.au/panaroo "
             "--include Installation Tutorial "
             "--max-pages 10"
@@ -106,6 +107,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Exclude pages whose title contains one or more keywords.",
     )
 
+    parser.add_argument(
+        "--docs-only",
+        action="store_true",
+        help="Skip common non-documentation pages.",
+    )
+
     return parser
 
 
@@ -115,14 +122,28 @@ def filter_pages(
 ) -> list[Page]:
     """Apply page filters."""
 
+    if config.docs_only:
+        ignored = {
+            "blog",
+            "changelog",
+            "release notes",
+            "browser support",
+            "conventions",
+            "symbols",
+            "alternatives",
+            "community",
+            "sponsor",
+            "sponsors",
+            "roadmap",
+        }
+
+        pages = [page for page in pages if page.title.lower() not in ignored]
+
     if config.include:
         pages = [
             page
             for page in pages
-            if any(
-                keyword.lower() in page.title.lower()
-                for keyword in config.include
-            )
+            if any(keyword.lower() in page.title.lower() for keyword in config.include)
         ]
 
     if config.exclude:
@@ -130,8 +151,7 @@ def filter_pages(
             page
             for page in pages
             if not any(
-                keyword.lower() in page.title.lower()
-                for keyword in config.exclude
+                keyword.lower() in page.title.lower() for keyword in config.exclude
             )
         ]
 
@@ -155,6 +175,7 @@ def main() -> None:
         max_pages=args.max_pages,
         include=args.include,
         exclude=args.exclude,
+        docs_only=args.docs_only,
     )
 
     if config.verbose:
@@ -162,9 +183,8 @@ def main() -> None:
 
     site = detect_site(config.url)
 
-    pages = site.pages()
     pages = filter_pages(
-        pages,
+        site.pages(),
         config,
     )
 
@@ -174,7 +194,13 @@ def main() -> None:
     crawler = MarkdownCrawler()
     docs = crawler.fetch(pages)
 
-    processor = MarkdownPreprocessor()
+    #
+    # ใช้ base URL ของเว็บปัจจุบัน
+    #
+    processor = MarkdownPreprocessor(
+        config.url,
+    )
+
     docs = processor.process(docs)
 
     renderer = MarkdownRenderer()

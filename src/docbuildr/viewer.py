@@ -2,13 +2,11 @@ from pathlib import Path
 
 
 class DocsifyViewer:
-
     def create(
         self,
         markdown: Path,
         output: Path,
     ) -> None:
-
         html = f"""<!DOCTYPE html>
 <html>
 <head>

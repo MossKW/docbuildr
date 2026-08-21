@@ -26,10 +26,11 @@ class DocBuildrConfig:
     # Console
     verbose: bool = False
 
-    # Crawling
+    # Filters
     max_pages: int | None = None
     include: list[str] | None = None
     exclude: list[str] | None = None
+    docs_only: bool = False
 
     # Theme
     theme: str = "book"

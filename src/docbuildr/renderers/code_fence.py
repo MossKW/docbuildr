@@ -33,7 +33,6 @@ class SmartCodeFence:
         self,
         markdown: str,
     ) -> str:
-
         pattern = re.compile(
             r"```[ \t]*\n(.*?)\n```",
             re.DOTALL,
@@ -42,7 +41,6 @@ class SmartCodeFence:
         def replace(
             match: re.Match[str],
         ) -> str:
-
             block = match.group(1)
 
             lines = block.splitlines()
@@ -52,10 +50,7 @@ class SmartCodeFence:
 
             first = lines[0].strip()
 
-            if any(
-                first.startswith(prefix)
-                for prefix in self.SHELL_PREFIXES
-            ):
+            if any(first.startswith(prefix) for prefix in self.SHELL_PREFIXES):
                 return f"```bash\n{block}\n```"
 
             return match.group(0)

@@ -13,12 +13,10 @@ class PDFExporter:
         html: Path,
         pdf: Path,
     ) -> None:
-
         html = html.resolve()
         pdf = pdf.resolve()
 
         with sync_playwright() as p:
-
             browser = p.chromium.launch(
                 headless=True,
             )
@@ -38,10 +36,8 @@ class PDFExporter:
                 path=str(pdf),
                 print_background=True,
                 prefer_css_page_size=True,
-
                 # Header / Footer
                 display_header_footer=True,
-
                 header_template="""
 <div style="
 width:100%;
@@ -50,7 +46,6 @@ text-align:center;
 color:#888;
 "></div>
 """,
-
                 footer_template="""
 <div style="
 width:100%;
@@ -76,7 +71,6 @@ of
 
 </div>
 """,
-
                 margin={
                     "top": "20mm",
                     "bottom": "20mm",

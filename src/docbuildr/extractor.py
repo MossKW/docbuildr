@@ -20,16 +20,12 @@ class HTMLExtractor:
     SELECTORS = (
         # MkDocs Material
         "div.md-content__inner",
-
         # Generic article
         "article",
-
         # Docusaurus
         ".theme-doc-markdown",
-
         # Sphinx
         ".rst-content",
-
         # Generic
         "#content",
         "#main-content",
@@ -42,12 +38,10 @@ class HTMLExtractor:
         "script",
         "style",
         "noscript",
-
         "nav",
         "header",
         "footer",
         "aside",
-
         ".md-header",
         ".md-sidebar",
         ".md-tabs",
@@ -62,7 +56,6 @@ class HTMLExtractor:
         ".md-comments",
         ".md-social",
         ".md-nav",
-
         ".pagination",
         ".edit-page",
         ".mdx-code-block",
@@ -72,7 +65,6 @@ class HTMLExtractor:
         self,
         html: str,
     ) -> str:
-
         soup = BeautifulSoup(
             html,
             "lxml",
@@ -85,9 +77,7 @@ class HTMLExtractor:
         # Pick the largest matching container
         #
         for selector in self.SELECTORS:
-
             for candidate in soup.select(selector):
-
                 length = len(
                     candidate.get_text(
                         " ",
@@ -96,7 +86,6 @@ class HTMLExtractor:
                 )
 
                 if length > best_len:
-
                     best_len = length
                     root = candidate
 
@@ -107,23 +96,19 @@ class HTMLExtractor:
         # Remove layout inside root only
         #
         for selector in self.REMOVE_SELECTORS:
-
             for tag in root.select(selector):
                 tag.decompose()
 
         #
         # Remove anchor icons
         #
-        for tag in root.select(
-            ".headerlink, .anchor, .autorefs-anchor"
-        ):
+        for tag in root.select(".headerlink, .anchor, .autorefs-anchor"):
             tag.decompose()
 
         #
         # Remove empty anchors
         #
         for tag in root.find_all("a"):
-
             if tag.get("id"):
                 tag.decompose()
 
@@ -131,7 +116,6 @@ class HTMLExtractor:
         # Remove Skip to content links
         #
         for tag in root.find_all("a"):
-
             text = tag.get_text(
                 " ",
                 strip=True,
@@ -157,10 +141,7 @@ class HTMLExtractor:
         #
         seen = set()
 
-        for heading in root.find_all(
-            ["h1", "h2"]
-        ):
-
+        for heading in root.find_all(["h1", "h2"]):
             title = heading.get_text(
                 " ",
                 strip=True,
@@ -189,14 +170,9 @@ class HTMLExtractor:
         blank = False
 
         for line in markdown.splitlines():
-
-            line = (
-                line.replace("¶", "")
-                .rstrip()
-            )
+            line = line.replace("¶", "").rstrip()
 
             if not line:
-
                 if blank:
                     continue
 
@@ -206,15 +182,12 @@ class HTMLExtractor:
 
             blank = False
 
-            if (
-                line.strip().lower() == "skip to content"
-                or any(
-                    x in line
-                    for x in (
-                        "Was this page helpful?",
-                        "Thanks for your feedback!",
-                        "Help us improve this page",
-                    )
+            if line.strip().lower() == "skip to content" or any(
+                x in line
+                for x in (
+                    "Was this page helpful?",
+                    "Thanks for your feedback!",
+                    "Help us improve this page",
                 )
             ):
                 continue
@@ -234,7 +207,6 @@ class HTMLExtractor:
         # Fallback
         #
         if len(markdown) < 50:
-
             markdown = root.get_text(
                 "\n",
                 strip=True,
@@ -261,7 +233,6 @@ class HTMLExtractor:
         output = []
 
         for line in markdown.splitlines():
-
             stripped = line.lstrip()
 
             if stripped.startswith("* ## "):

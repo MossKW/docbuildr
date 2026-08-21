@@ -16,7 +16,6 @@ class BookBuilder:
         docs: list[MarkdownPage],
         metadata: BookMetadata,
     ) -> str:
-
         chapters = self.build_chapters(docs)
 
         parts = [
@@ -46,7 +45,6 @@ class BookBuilder:
         self,
         metadata: BookMetadata,
     ) -> str:
-
         return f"""
 <div class="cover">
 
@@ -73,7 +71,6 @@ Generated on {metadata.generated}
         self,
         metadata: BookMetadata,
     ) -> str:
-
         return f"""
 # About this Book
 
@@ -101,14 +98,12 @@ This PDF is intended for offline reading only.
         self,
         chapters: list[Chapter],
     ) -> str:
-
         items = []
 
         for number, chapter in enumerate(
             chapters,
             start=1,
         ):
-
             anchor = self.slugify(
                 chapter.title,
             )
@@ -144,7 +139,6 @@ This PDF is intended for offline reading only.
         anchor: str,
         title: str,
     ) -> str:
-
         return f"""
 <li class="toc-item">
 <a class="toc-link" href="#{anchor}">
@@ -160,7 +154,6 @@ This PDF is intended for offline reading only.
     def build_chapters(
         docs: list[MarkdownPage],
     ) -> list[Chapter]:
-
         return [
             Chapter(
                 title=doc.title,
@@ -173,11 +166,9 @@ This PDF is intended for offline reading only.
         self,
         chapters: list[Chapter],
     ) -> str:
-
         parts: list[str] = []
 
         for chapter in chapters:
-
             anchor = self.slugify(
                 chapter.title,
             )

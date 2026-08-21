@@ -17,6 +17,7 @@ from docbuildr.renderers import (
     SmartCodeFence,
 )
 
+
 class MarkdownRenderer:
     """Render a documentation book to Markdown and HTML."""
 
@@ -27,7 +28,6 @@ class MarkdownRenderer:
         title: str = "Documentation",
         source: str = "",
     ) -> None:
-
         output.parent.mkdir(
             parents=True,
             exist_ok=True,
@@ -70,11 +70,7 @@ class MarkdownRenderer:
 
         html = HTMLPostProcessor().process(html)
 
-        template_root = Path(
-            str(
-                files("docbuildr").joinpath("templates")
-            )
-        )
+        template_root = Path(str(files("docbuildr").joinpath("templates")))
 
         env = Environment(
             loader=FileSystemLoader(template_root),

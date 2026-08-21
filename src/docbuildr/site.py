@@ -6,6 +6,7 @@ import re
 
 import requests
 
+
 @dataclass(slots=True)
 class Page:
     title: str
@@ -32,7 +33,6 @@ class DocsifySite(SiteAdapter):
     """Docsify documentation."""
 
     def pages(self) -> list[Page]:
-
         response = requests.get(
             f"{self.base_url}/_sidebar.md",
             timeout=30,
@@ -54,7 +54,6 @@ class DocsifySite(SiteAdapter):
             r"\[(.*?)\]\((.*?)\)",
             sidebar,
         ):
-
             if path.startswith("http"):
                 continue
 
@@ -73,11 +72,11 @@ class DocsifySite(SiteAdapter):
     def title(self) -> str:
         return fetch_title(self.base_url)
 
+
 class MkDocsSite(SiteAdapter):
     """MkDocs documentation."""
 
     def pages(self) -> list[Page]:
-
         response = requests.get(
             f"{self.base_url}/search/search_index.json",
             timeout=30,
@@ -90,11 +89,12 @@ class MkDocsSite(SiteAdapter):
         seen: set[str] = set()
 
         for doc in data.get("docs", []):
-
             location = doc.get(
                 "location",
                 "",
-            ).split("#", 1)[0]
+            ).split(
+                "#", 1
+            )[0]
 
             location = location.lstrip("/")
 
@@ -103,11 +103,7 @@ class MkDocsSite(SiteAdapter):
 
             seen.add(location)
 
-            title = (
-                doc.get("title")
-                or location
-                or "Documentation"
-            )
+            title = doc.get("title") or location or "Documentation"
 
             pages.append(
                 Page(
@@ -122,6 +118,7 @@ class MkDocsSite(SiteAdapter):
     def title(self) -> str:
         return fetch_title(self.base_url)
 
+
 class GenericSite(SiteAdapter):
     """
     Placeholder for generic HTML documentation.
@@ -130,10 +127,7 @@ class GenericSite(SiteAdapter):
     """
 
     def pages(self) -> list[Page]:
-
-        raise RuntimeError(
-            "Generic HTML support is not implemented yet."
-        )
+        raise RuntimeError("Generic HTML support is not implemented yet.")
 
     def title(self) -> str:
         return fetch_title(self.base_url)
@@ -145,7 +139,6 @@ def fetch_title(url: str) -> str:
     """
 
     try:
-
         response = requests.get(
             url,
             timeout=15,
@@ -162,7 +155,6 @@ def fetch_title(url: str) -> str:
         )
 
         if match:
-
             title = re.sub(
                 r"\s+",
                 " ",
@@ -182,8 +174,8 @@ def fetch_title(url: str) -> str:
 
     return "Documentation"
 
-def detect_site(url: str) -> SiteAdapter:
 
+def detect_site(url: str) -> SiteAdapter:
     response = requests.get(
         url,
         timeout=15,
@@ -214,6 +206,4 @@ def detect_site(url: str) -> SiteAdapter:
     except requests.RequestException:
         pass
 
-    raise RuntimeError(
-        f"Unsupported documentation framework: {url}"
-    )
+    raise RuntimeError(f"Unsupported documentation framework: {url}")

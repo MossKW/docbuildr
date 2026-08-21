@@ -25,17 +25,14 @@ class MarkdownCrawler:
         self,
         pages: list[Page],
     ) -> list[MarkdownPage]:
-
         output: list[MarkdownPage] = []
 
         session = requests.Session()
 
         for page in pages:
-
             print(f"Downloading: {page.title}")
 
             try:
-
                 response = session.get(
                     page.markdown_url,
                     timeout=30,
@@ -44,7 +41,6 @@ class MarkdownCrawler:
                 response.raise_for_status()
 
             except requests.RequestException as e:
-
                 print(f"⚠️  Skip: {page.title}")
                 print(f"    {e}")
 
@@ -56,7 +52,6 @@ class MarkdownCrawler:
             # HTML -> Markdown
             #
             if "<html" in text.lower():
-
                 text = self.extractor.extract(
                     text,
                 )
