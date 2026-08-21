@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date
+from datetime import UTC, datetime
 from importlib.resources import files
 from pathlib import Path
 
@@ -11,7 +11,6 @@ from docbuildr.assets import AssetManager
 from docbuildr.book import BookBuilder
 from docbuildr.crawler import MarkdownPage
 from docbuildr.metadata import BookMetadata
-
 from docbuildr.renderers import (
     HTMLPostProcessor,
     SmartCodeFence,
@@ -36,7 +35,7 @@ class MarkdownRenderer:
         metadata = BookMetadata(
             title=title,
             source=source,
-            generated=date.today().strftime("%d %B %Y"),
+            generated=datetime.now(UTC).strftime("%d %B %Y"),
         )
         markdown_text = BookBuilder().build(
             docs=docs,

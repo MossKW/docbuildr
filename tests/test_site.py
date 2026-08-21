@@ -1,4 +1,6 @@
-from docbuildr.site import DocsifySite
+from unittest.mock import Mock, patch
+
+from docbuildr.site import DocsifySite, MkDocsSite, detect_site
 
 
 def test_title_from_slug():
@@ -16,15 +18,9 @@ def test_base_url_trailing_slash_removed():
 def test_fallback_title_from_slug():
     site = DocsifySite("https://example.com/my-awesome-docs")
 
-    # ใช้ fallback logic โดย monkeypatch title() ภายหลัง
     slug = site.base_url.rstrip("/").split("/")[-1]
 
     assert slug.replace("-", " ").title() == "My Awesome Docs"
-
-
-from unittest.mock import Mock, patch
-
-from docbuildr.site import MkDocsSite, detect_site
 
 
 @patch("docbuildr.site.requests.get")

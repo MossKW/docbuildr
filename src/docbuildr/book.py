@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from html import escape
 import re
+from html import escape
 
 from docbuildr.crawler import MarkdownPage
 from docbuildr.metadata import BookMetadata

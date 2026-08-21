@@ -1,6 +1,5 @@
 from docbuildr.preprocessor import MarkdownPreprocessor
 
-
 processor = MarkdownPreprocessor(
     "https://example.com",
 )
