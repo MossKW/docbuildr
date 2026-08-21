@@ -149,6 +149,15 @@ class HTMLExtractor:
             tag.decompose()
 
         #
+        # Remove existing anchors
+        #
+        for tag in root.find_all("a"):
+
+           if tag.get("id"):
+                tag.decompose()
+
+
+        #
         # Remove duplicate headings
         #
         seen = set()
