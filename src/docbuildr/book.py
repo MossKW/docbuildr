@@ -9,7 +9,7 @@ from docbuildr.models import Chapter
 
 
 class BookBuilder:
-    """Build a complete markdown book."""
+    """Build a complete Markdown book."""
 
     def build(
         self,
@@ -19,19 +19,18 @@ class BookBuilder:
 
         chapters = self.build_chapters(docs)
 
-        return "\n\n".join(
-            [
-                self.build_cover(metadata),
-                self.build_about(metadata),
-                self.build_toc(chapters),
-                self.render_chapters(chapters),
-            ]
-        )
+        parts = [
+            self.build_cover(metadata),
+            self.build_about(metadata),
+            self.build_toc(chapters),
+            self.build_chapters_markdown(chapters),
+        ]
 
-    def slugify(
-        self,
-        text: str,
-    ) -> str:
+        return "\n\n".join(parts)
+
+    @staticmethod
+    def slugify(text: str) -> str:
+        """Convert a heading into a stable HTML anchor."""
 
         text = text.lower()
 
@@ -68,7 +67,7 @@ Generated on {metadata.generated}
 </div>
 
 <div class="page-break"></div>
-"""
+""".strip()
 
     def build_about(
         self,
@@ -96,7 +95,7 @@ The documentation content belongs to its original authors.
 This PDF is intended for offline reading only.
 
 <div class="page-break"></div>
-"""
+""".strip()
 
     def build_toc(
         self,
@@ -109,19 +108,21 @@ This PDF is intended for offline reading only.
             chapters,
             start=1,
         ):
-            anchor = self.slugify(chapter.title)
-            title = escape(chapter.title)
+
+            anchor = self.slugify(
+                chapter.title,
+            )
+
+            title = escape(
+                chapter.title,
+            )
 
             items.append(
-                f"""
-<li class="toc-item">
-<a class="toc-link" href="#{anchor}">
-<span class="toc-number" aria-hidden="true">{number}</span>
-<span class="toc-title">{title}</span>
-<span class="toc-dots" aria-hidden="true"></span>
-<span class="toc-page"></span>
-</a>
-</li>""".strip()
+                self.build_toc_item(
+                    number,
+                    anchor,
+                    title,
+                )
             )
 
         toc_items = "\n".join(items)
@@ -137,8 +138,26 @@ This PDF is intended for offline reading only.
 <div class="page-break"></div>
 """.strip()
 
+    @staticmethod
+    def build_toc_item(
+        number: int,
+        anchor: str,
+        title: str,
+    ) -> str:
+
+        return f"""
+<li class="toc-item">
+<a class="toc-link" href="#{anchor}">
+<span class="toc-number" aria-hidden="true">{number}</span>
+<span class="toc-title">{title}</span>
+<span class="toc-dots" aria-hidden="true"></span>
+<span class="toc-page"></span>
+</a>
+</li>
+""".strip()
+
+    @staticmethod
     def build_chapters(
-        self,
         docs: list[MarkdownPage],
     ) -> list[Chapter]:
 
@@ -150,17 +169,17 @@ This PDF is intended for offline reading only.
             for doc in docs
         ]
 
-    def render_chapters(
+    def build_chapters_markdown(
         self,
         chapters: list[Chapter],
     ) -> str:
 
-        parts = []
+        parts: list[str] = []
 
         for chapter in chapters:
 
             anchor = self.slugify(
-                chapter.title
+                chapter.title,
             )
 
             parts.append(
@@ -168,7 +187,7 @@ This PDF is intended for offline reading only.
 <a id="{anchor}"></a>
 
 {chapter.markdown}
-"""
+""".strip()
             )
 
         return "\n\n".join(parts)
