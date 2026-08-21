@@ -7,7 +7,6 @@ processor = MarkdownPreprocessor(
 
 
 def test_fix_mermaid_block():
-
     text = """
 ```mermaid
 graph TD
@@ -23,7 +22,6 @@ A-->B
 
 
 def test_non_mermaid_code_block_is_unchanged():
-
     text = """
 ```python
 print("hello")
@@ -36,7 +34,6 @@ print("hello")
 
 
 def test_multiple_mermaid_blocks():
-
     text = """
 ```mermaid
 graph TD
@@ -53,13 +50,10 @@ X-->Y
 
     result = processor.fix_mermaid_blocks(text)
 
-    assert result.count(
-        '<div class="mermaid">'
-    ) == 2
+    assert result.count('<div class="mermaid">') == 2
 
 
 def test_empty_mermaid_block():
-
     text = """
 ```mermaid
 ```

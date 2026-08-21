@@ -4,7 +4,6 @@ from docbuildr.site import Page
 
 
 def test_filter_pages_max_pages():
-
     pages = [
         Page("A", "a", "a"),
         Page("B", "b", "b"),

@@ -5,7 +5,6 @@ from docbuildr.site import MkDocsSite
 
 @patch("docbuildr.site.requests.get")
 def test_mkdocs_pages(mock_get):
-
     response = Mock()
 
     response.json.return_value = {
