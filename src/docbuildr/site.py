@@ -87,14 +87,31 @@ class MkDocsSite(SiteAdapter):
         data = response.json()
 
         pages: list[Page] = []
+        seen: set[str] = set()
 
         for doc in data.get("docs", []):
 
-            location = doc.get("location", "").lstrip("/")
+            location = doc.get(
+                "location",
+                "",
+            ).split("#", 1)[0]
+
+            location = location.lstrip("/")
+
+            if location in seen:
+                continue
+
+            seen.add(location)
+
+            title = (
+                doc.get("title")
+                or location
+                or "Documentation"
+            )
 
             pages.append(
                 Page(
-                    title=doc.get("title", location),
+                    title=title,
                     path=location,
                     markdown_url=f"{self.base_url}/{location}",
                 )
