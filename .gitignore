@@ -51,3 +51,6 @@ output/
 # Temporary
 tmp/
 temp/
+
+# Debug artifacts
+debug_home.html

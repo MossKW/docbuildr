@@ -10,7 +10,6 @@ class HTMLPostProcessor:
         self,
         html: str,
     ) -> str:
-
         soup = BeautifulSoup(
             html,
             "lxml",
@@ -28,9 +27,7 @@ class HTMLPostProcessor:
         self,
         soup: BeautifulSoup,
     ) -> None:
-
         for table in soup.find_all("table"):
-
             headers = table.find("thead")
 
             if headers is None:
@@ -49,9 +46,7 @@ class HTMLPostProcessor:
         self,
         soup: BeautifulSoup,
     ) -> None:
-
         for image in soup.find_all("img"):
-
             classes = set(image.get("class", []))
 
             classes.add("doc-image")
@@ -62,9 +57,7 @@ class HTMLPostProcessor:
         self,
         soup: BeautifulSoup,
     ) -> None:
-
         for pre in soup.find_all("pre"):
-
             classes = set(pre.get("class", []))
 
             classes.add("code-block")
@@ -75,9 +68,7 @@ class HTMLPostProcessor:
         self,
         soup: BeautifulSoup,
     ) -> None:
-
         for heading in soup.find_all("h1"):
-
             classes = set(heading.get("class", []))
 
             classes.add("chapter-title")
@@ -88,9 +79,7 @@ class HTMLPostProcessor:
         self,
         soup: BeautifulSoup,
     ) -> None:
-
         for quote in soup.find_all("blockquote"):
-
             classes = set(quote.get("class", []))
 
             classes.add("doc-blockquote")

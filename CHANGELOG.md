@@ -7,6 +7,24 @@ The format is based on **Keep a Changelog** and this project follows **Semantic 
 ---
 # Changelog
 
+## [1.0.6] - 2026-08-21
+
+### Added
+- Page filtering (`--include`, `--exclude`, `--docs-only`)
+- Page limiting (`--max-pages`)
+- GitHub Actions CI
+
+### Fixed
+- MkDocs Material homepage extraction
+- Duplicate chapter anchors
+- Skip-to-content removal
+- MkDocs feature list rendering
+
+### Changed
+- Simplified BookBuilder
+- Improved HTMLExtractor
+- Better Markdown cleanup
+
 ## v1.0.3
 - Fixed missing book.html template in package
 

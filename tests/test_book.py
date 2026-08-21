@@ -3,7 +3,6 @@ from docbuildr.metadata import BookMetadata
 
 
 def test_build_cover_contains_title():
-
     metadata = BookMetadata(
         title="Panaroo",
         source="https://example.com",
@@ -18,7 +17,6 @@ def test_build_cover_contains_title():
 
 
 def test_build_cover_contains_source():
-
     metadata = BookMetadata(
         title="Book",
         source="https://example.com",
@@ -33,7 +31,6 @@ def test_build_cover_contains_source():
 
 
 def test_build_cover_contains_generated_date():
-
     metadata = BookMetadata(
         title="Book",
         source="Example",

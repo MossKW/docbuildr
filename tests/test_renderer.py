@@ -3,7 +3,6 @@ from docbuildr.renderer import MarkdownRenderer
 
 
 def sample_docs():
-
     return [
         MarkdownPage(
             title="Introduction",
@@ -14,7 +13,6 @@ def sample_docs():
 
 
 def test_render_creates_markdown_file(tmp_path):
-
     output = tmp_path / "book.md"
 
     renderer = MarkdownRenderer()
@@ -30,7 +28,6 @@ def test_render_creates_markdown_file(tmp_path):
 
 
 def test_render_creates_html_file(tmp_path):
-
     output = tmp_path / "book.md"
 
     renderer = MarkdownRenderer()
@@ -46,7 +43,6 @@ def test_render_creates_html_file(tmp_path):
 
 
 def test_render_creates_styles_directory(tmp_path):
-
     output = tmp_path / "book.md"
 
     renderer = MarkdownRenderer()
@@ -62,7 +58,6 @@ def test_render_creates_styles_directory(tmp_path):
 
 
 def test_markdown_contains_content(tmp_path):
-
     output = tmp_path / "book.md"
 
     renderer = MarkdownRenderer()
@@ -80,7 +75,6 @@ def test_markdown_contains_content(tmp_path):
 
 
 def test_html_contains_title(tmp_path):
-
     output = tmp_path / "book.md"
 
     renderer = MarkdownRenderer()
@@ -92,15 +86,12 @@ def test_html_contains_title(tmp_path):
         source="https://example.com",
     )
 
-    html = output.with_suffix(".html").read_text(
-        encoding="utf-8"
-    )
+    html = output.with_suffix(".html").read_text(encoding="utf-8")
 
     assert "<title>My Book</title>" in html
 
 
 def test_html_contains_rendered_content(tmp_path):
-
     output = tmp_path / "book.md"
 
     renderer = MarkdownRenderer()
@@ -112,8 +103,6 @@ def test_html_contains_rendered_content(tmp_path):
         source="https://example.com",
     )
 
-    html = output.with_suffix(".html").read_text(
-        encoding="utf-8"
-    )
+    html = output.with_suffix(".html").read_text(encoding="utf-8")
 
     assert "Hello World" in html

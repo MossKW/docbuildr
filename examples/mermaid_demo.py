@@ -4,7 +4,6 @@ from docbuildr.crawler import MarkdownPage
 from docbuildr.preprocessor import MarkdownPreprocessor
 from docbuildr.renderer import MarkdownRenderer
 
-
 docs = [
     MarkdownPage(
         title="Mermaid Demo",

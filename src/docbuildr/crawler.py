@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 import requests
 
+from docbuildr.extractor import HTMLExtractor
 from docbuildr.site import Page
 
 
@@ -15,23 +16,23 @@ class MarkdownPage:
 
 
 class MarkdownCrawler:
-    """Download Markdown pages directly from Docsify."""
+    """Download documentation pages."""
+
+    def __init__(self) -> None:
+        self.extractor = HTMLExtractor()
 
     def fetch(
         self,
         pages: list[Page],
     ) -> list[MarkdownPage]:
-
         output: list[MarkdownPage] = []
 
         session = requests.Session()
 
         for page in pages:
-
             print(f"Downloading: {page.title}")
 
             try:
-
                 response = session.get(
                     page.markdown_url,
                     timeout=30,
@@ -40,17 +41,26 @@ class MarkdownCrawler:
                 response.raise_for_status()
 
             except requests.RequestException as e:
-
                 print(f"⚠️  Skip: {page.title}")
                 print(f"    {e}")
 
                 continue
 
+            text = response.text
+
+            #
+            # HTML -> Markdown
+            #
+            if "<html" in text.lower():
+                text = self.extractor.extract(
+                    text,
+                )
+
             output.append(
                 MarkdownPage(
                     title=page.title,
                     path=page.path,
-                    markdown=response.text,
+                    markdown=text,
                 )
             )
 

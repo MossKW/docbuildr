@@ -2,7 +2,6 @@ from docbuildr.renderers.postprocess import HTMLPostProcessor
 
 
 def test_add_doc_table_class():
-
     html = """
     <table>
         <thead>
@@ -28,7 +27,6 @@ def test_add_doc_table_class():
 
 
 def test_add_column_class():
-
     html = """
     <table>
         <thead>
@@ -51,7 +49,6 @@ def test_add_column_class():
 
 
 def test_existing_class_is_preserved():
-
     html = """
     <table class="custom">
         <thead>
@@ -71,7 +68,6 @@ def test_existing_class_is_preserved():
 
 
 def test_table_without_header_is_unchanged():
-
     html = """
     <table>
         <tbody>

@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import shutil
-from pathlib import Path
 from importlib.resources import files
+from pathlib import Path
 
 
 class AssetManager:
@@ -12,7 +12,6 @@ class AssetManager:
         self,
         output_dir: Path,
     ) -> None:
-
         template_root = files("docbuildr").joinpath("templates")
 
         self._copy_directory(
@@ -30,7 +29,6 @@ class AssetManager:
         source: Path,
         destination: Path,
     ) -> None:
-
         if destination.exists():
             shutil.rmtree(destination)
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date
+from datetime import UTC, datetime
 from importlib.resources import files
 from pathlib import Path
 
@@ -11,11 +11,11 @@ from docbuildr.assets import AssetManager
 from docbuildr.book import BookBuilder
 from docbuildr.crawler import MarkdownPage
 from docbuildr.metadata import BookMetadata
-
 from docbuildr.renderers import (
     HTMLPostProcessor,
     SmartCodeFence,
 )
+
 
 class MarkdownRenderer:
     """Render a documentation book to Markdown and HTML."""
@@ -27,7 +27,6 @@ class MarkdownRenderer:
         title: str = "Documentation",
         source: str = "",
     ) -> None:
-
         output.parent.mkdir(
             parents=True,
             exist_ok=True,
@@ -36,7 +35,7 @@ class MarkdownRenderer:
         metadata = BookMetadata(
             title=title,
             source=source,
-            generated=date.today().strftime("%d %B %Y"),
+            generated=datetime.now(UTC).strftime("%d %B %Y"),
         )
         markdown_text = BookBuilder().build(
             docs=docs,
@@ -70,11 +69,7 @@ class MarkdownRenderer:
 
         html = HTMLPostProcessor().process(html)
 
-        template_root = Path(
-            str(
-                files("docbuildr").joinpath("templates")
-            )
-        )
+        template_root = Path(str(files("docbuildr").joinpath("templates")))
 
         env = Environment(
             loader=FileSystemLoader(template_root),
